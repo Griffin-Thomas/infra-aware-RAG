@@ -1,0 +1,40 @@
+# Environment files
+.env
+.env.*
+env/
+venv/
+.venv/
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*.so
+.python-version
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints
+*.sqlite3
+
+# Packaging / build
+build/
+dist/
+*.egg-info/
+.eggs/
+.coverage
+coverage.xml
+
+# Editors and OS
+.vscode/
+.idea/
+.DS_Store
+*.swp
+*.swo
+
+# Documentation and prompt drafts
+*PROMPT.md
+CLAUDE.md
+
+# Logs and caches
+*.log
+.cache/
