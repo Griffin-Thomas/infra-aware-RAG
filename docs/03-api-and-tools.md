@@ -40,13 +40,13 @@ By the end of this phase, we will have a complete API surface that can be consum
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                           API Gateway                                        │
-│              (Azure API Management or Application Gateway)                   │
+│                           API Gateway                                       │
+│              (Azure API Management or Application Gateway)                  │
 └─────────────────────────────────────────────────────────────────────────────┘
                                       │
                                       ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                         FastAPI Application                                  │
+│                         FastAPI Application                                 │
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐     │
 │  │   Search     │  │   Resource   │  │  Terraform   │  │     Git      │     │
 │  │   Router     │  │   Router     │  │   Router     │  │   Router     │     │

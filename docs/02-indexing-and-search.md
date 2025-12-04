@@ -38,8 +38,8 @@ By the end of this phase, we will have a robust search infrastructure that can f
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                            Search API                                        │
-│               (Hybrid Search: Vector + Keyword + Graph)                      │
+│                            Search API                                       │
+│               (Hybrid Search: Vector + Keyword + Graph)                     │
 └─────────────────────────────────────────────────────────────────────────────┘
                     │                │                │
                     ▼                ▼                ▼
@@ -53,7 +53,7 @@ By the end of this phase, we will have a robust search infrastructure that can f
                     └────────────────┼────────────────┘
                                      │
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                         Indexing Pipeline                                    │
+│                         Indexing Pipeline                                   │
 │  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────────────────┐  │
 │  │    Chunker      │  │   Embedder      │  │   Graph Builder             │  │
 │  │  (Split docs)   │  │  (Azure OpenAI) │  │  (Extract relationships)    │  │
@@ -62,8 +62,8 @@ By the end of this phase, we will have a robust search infrastructure that can f
                                      ▲
                                      │
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                        Document Store (Cosmos DB)                            │
-│         Raw documents from Phase 1 ingestion pipeline                        │
+│                        Document Store (Cosmos DB)                           │
+│         Raw documents from Phase 1 ingestion pipeline                       │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 

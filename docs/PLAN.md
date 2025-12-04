@@ -22,13 +22,13 @@ The system enables DevOps engineers, SREs, and cloud architects to ask natural l
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                              User Interface                                  │
+│                              User Interface                                 │
 │                    (Chat UI / CLI / VS Code Extension)                      │
 └─────────────────────────────────────────────────────────────────────────────┘
                                       │
                                       ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                         LLM Orchestration Layer                              │
+│                         LLM Orchestration Layer                             │
 │              (Azure OpenAI / Claude + Tool Router + Memory)                 │
 └─────────────────────────────────────────────────────────────────────────────┘
                                       │
@@ -42,7 +42,7 @@ The system enables DevOps engineers, SREs, and cloud architects to ask natural l
                     └─────────────────┼─────────────────┘
                                       ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                           Unified Data Layer                                 │
+│                           Unified Data Layer                                │
 │  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────────────────┐  │
 │  │  Vector Store   │  │  Graph Database │  │  Document Store             │  │
 │  │  (Embeddings)   │  │  (Relationships)│  │  (Raw Artifacts)            │  │
@@ -51,7 +51,7 @@ The system enables DevOps engineers, SREs, and cloud architects to ask natural l
                                       ▲
                                       │
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                         Data Ingestion Pipeline                              │
+│                         Data Ingestion Pipeline                             │
 │  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────────────────┐  │
 │  │ Azure Resource  │  │   Terraform     │  │      Git History            │  │
 │  │     Graph       │  │   Parser        │  │      Collector              │  │

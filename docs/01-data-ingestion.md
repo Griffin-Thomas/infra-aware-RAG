@@ -37,8 +37,8 @@ By the end of this phase, we will have a unified data pipeline that continuously
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                         Ingestion Orchestrator                               │
-│                    (Scheduler + Job Queue + Workers)                         │
+│                         Ingestion Orchestrator                              │
+│                    (Scheduler + Job Queue + Workers)                        │
 └─────────────────────────────────────────────────────────────────────────────┘
         │                       │                       │
         ▼                       ▼                       ▼
