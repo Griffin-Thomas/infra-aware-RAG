@@ -8,7 +8,7 @@ This document outlines the implementation plan for an **Infra-Aware RAG (Retriev
 - **Terraform Code and Plans** from repositories
 - **Git History** for change tracking and context
 
-**⚠️ CRITICAL REQUIREMENT: All Azure resources for this project MUST be deployed in Canada East (`canadaeast`) or Canada Central (`canadacentral`) regions. This is a strict requirement for data residency and compliance.**
+**CRITICAL REQUIREMENT: All Azure resources for this project MUST be deployed in Canada East (`canadaeast`) or Canada Central (`canadacentral`) regions. This is a strict requirement for data residency and compliance.**
 
 The system enables DevOps engineers, SREs, and cloud architects to ask natural language questions like:
 - "Which VMs in production don't have backup enabled?"
@@ -71,7 +71,7 @@ The system enables DevOps engineers, SREs, and cloud architects to ask natural l
 
 ## Technology Stack
 
-**⚠️ All Azure services must be deployed in Canada East or Canada Central**
+**All Azure services must be deployed in Canada East or Canada Central**
 
 | Component | Recommended Technology | Region Requirement | Alternatives |
 |-----------|----------------------|-------------------|--------------|
@@ -258,7 +258,7 @@ class GitCommit:
 
 ```yaml
 # Configuration model for multi-subscription
-# ⚠️ IMPORTANT: This project's Azure resources must be in Canada East or Canada Central
+# IMPORTANT: This project's Azure resources must be in Canada East or Canada Central
 azure_region: "canadaeast"  # or "canadacentral"
 
 subscriptions:

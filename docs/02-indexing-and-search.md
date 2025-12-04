@@ -1410,7 +1410,7 @@ async def test_hybrid_search(search_engine):
 @pytest.mark.asyncio
 async def test_filtered_search(search_engine):
     """Test search with filters for Canadian resources."""
-    # ⚠️ All project resources must be in Canada East or Canada Central
+    # All project resources must be in Canada East or Canada Central
     results = await search_engine.search(
         query="storage",
         mode="hybrid",

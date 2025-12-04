@@ -43,7 +43,7 @@
 
 ### 1.1 Azure Infrastructure Setup
 > Context: `docs/01-data-ingestion.md` → "Setup & Infrastructure" section
-> **⚠️ CRITICAL: All resources MUST be deployed in Canada East or Canada Central**
+> **CRITICAL: All resources MUST be deployed in Canada East or Canada Central**
 
 - [ ] Create Azure Resource Group for the project (in Canada East or Canada Central)
 - [ ] Set up Cosmos DB account with NoSQL API (in Canada East or Canada Central)
@@ -161,7 +161,7 @@
 > **Milestone 2.3**: Graph database (Week 6)
 
 ### 2.1 Azure Infrastructure for Indexing
-> **⚠️ CRITICAL: All resources MUST be deployed in Canada East or Canada Central**
+> **CRITICAL: All resources MUST be deployed in Canada East or Canada Central**
 
 - [ ] Set up Azure OpenAI resource with `text-embedding-3-large` deployment (in Canada East or Canada Central)
 - [ ] Set up Azure AI Search resource (Basic tier for MVP) (in Canada East or Canada Central)

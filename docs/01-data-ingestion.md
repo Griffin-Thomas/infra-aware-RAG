@@ -1157,7 +1157,7 @@ class IngestionOrchestrator:
 ```yaml
 # config/ingestion.yaml
 
-# ⚠️ CRITICAL: All Azure resources for this project must be in Canada
+# CRITICAL: All Azure resources for this project must be in Canada
 # Valid values: "canadaeast" or "canadacentral"
 azure_region: "canadaeast"
 
@@ -1242,7 +1242,7 @@ class TestTerraformHCLConnector:
         tf_file.write_text('''
 resource "azurerm_resource_group" "main" {
   name     = "my-rg"
-  location = "canadaeast"  # ⚠️ Must use canadaeast or canadacentral
+  location = "canadaeast"  # Must use canadaeast or canadacentral
   tags = {
     environment = "production"
   }
@@ -1402,7 +1402,7 @@ async def test_full_ingestion_pipeline(e2e_config):
   "name": "my-vm",
   "type": "Microsoft.Compute/virtualMachines",
   "resource_group": "my-rg",
-  "location": "canadaeast",  // ⚠️ Must be canadaeast or canadacentral
+  "location": "canadaeast",  // Must be canadaeast or canadacentral
   "tags": {
     "environment": "production"
   },

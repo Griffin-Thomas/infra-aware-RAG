@@ -2,7 +2,7 @@
 
 An AI-powered assistant that answers questions about your Azure cloud infrastructure and Terraform IaC by understanding your live resource state, infrastructure code, and change history.
 
-**⚠️ CRITICAL REQUIREMENT: All Azure resources for this project MUST be deployed in Canada East (`canadaeast`) or Canada Central (`canadacentral`) regions.**
+**CRITICAL REQUIREMENT: All Azure resources for this project MUST be deployed in Canada East (`canadaeast`) or Canada Central (`canadacentral`) regions.**
 
 ## What It Does
 
