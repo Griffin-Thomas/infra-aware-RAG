@@ -7,8 +7,8 @@
 | Phase | Status | Progress |
 |-------|--------|----------|
 | Phase 0: Project Setup      | ✅ Complete  | 9/9   |
-| Phase 1: Data Ingestion     | In Progress | 51/71 |
-| Phase 2: Indexing & Search  | Not Started | 0/49  |
+| Phase 1: Data Ingestion     | In Progress | 62/71 |
+| Phase 2: Indexing & Search  | In Progress | 41/49 |
 | Phase 3: API & Tools        | Not Started | 0/61  |
 | Phase 4: LLM & UI           | Not Started | 0/77  |
 
@@ -135,21 +135,25 @@
 - [x] Convert commits to GitCommitDocument
 - [x] Create unit tests in `tests/unit/test_git_connector.py`
 
-### 1.8 Ingestion Orchestrator
+### 1.8 Ingestion Orchestrator ✅
 > Context: `docs/01-data-ingestion.md` → "Ingestion Orchestrator" section
 > Code example: Search for `class IngestionOrchestrator`
 
-- [ ] Implement `IngestionOrchestrator` class in `src/ingestion/orchestrator.py`
-- [ ] Implement `IngestionJob` dataclass and `IngestionJobType` enum
-- [ ] Add job scheduling via Service Bus (`schedule_job()`)
-- [ ] Implement job workers/consumers (`process_jobs()`)
-- [ ] Implement `_ingest_azure_resources()` method
-- [ ] Implement `_ingest_terraform_files()` method
-- [ ] Implement `_ingest_git_commits()` method
-- [ ] Implement `_full_sync()` for complete refresh
-- [ ] Add `_write_documents()` for Cosmos DB batch writes
-- [ ] Add error handling and dead-letter queue processing
-- [ ] Create configuration schema (`config/ingestion.yaml`)
+- [x] Implement `IngestionOrchestrator` class in `src/ingestion/orchestrator.py`
+- [x] Implement `IngestionJob`, `JobResult`, `JobStatus` and `IngestionJobType` in `src/ingestion/models.py`
+- [x] Add job scheduling via Service Bus (`schedule_job()`)
+- [x] Implement job workers/consumers (`start_worker()`)
+- [x] Implement `_process_azure_resources()` method
+- [x] Implement `_process_terraform_hcl()` method
+- [x] Implement `_process_terraform_state()` method
+- [x] Implement `_process_terraform_plan()` method
+- [x] Implement `_process_git_commits()` method
+- [x] Implement `_process_full_sync()` for complete refresh
+- [x] Add `_write_document()` for Cosmos DB writes
+- [x] Add error handling and dead-letter queue processing
+- [x] Create `IngestionConfig` dataclass for configuration
+- [x] Add progress tracking and job state management
+- [x] Create unit tests in `tests/unit/test_orchestrator.py` and `tests/unit/test_ingestion_models.py` (34 tests, 67% coverage)
 
 ---
 
@@ -172,67 +176,67 @@
 > Context: `docs/02-indexing-and-search.md` → "Chunking Strategy" section
 > Code examples: Search for `class AzureResourceChunker`, `class TerraformResourceChunker`
 
-- [ ] Create `src/indexing/__init__.py`
-- [ ] Create `Chunk` dataclass in `src/indexing/models.py`
-- [ ] Implement `AzureResourceChunker` in `src/indexing/chunkers.py`
-- [ ] Implement `TerraformResourceChunker`
-- [ ] Implement `GitCommitChunker`
-- [ ] Implement `TerraformPlanChunker` (summary + per-change chunks)
-- [ ] Add type-specific property extraction for Azure resources
-- [ ] Create unit tests for all chunkers in `tests/unit/test_chunkers.py`
+- [x] Create `src/indexing/__init__.py`
+- [x] Create `Chunk` dataclass in `src/indexing/models.py`
+- [x] Implement `AzureResourceChunker` in `src/indexing/chunkers.py`
+- [x] Implement `TerraformResourceChunker`
+- [x] Implement `GitCommitChunker`
+- [x] Implement `TerraformPlanChunker` (summary + per-change chunks)
+- [x] Add type-specific property extraction for Azure resources
+- [x] Create unit tests for all chunkers in `tests/unit/test_chunkers.py`
 
 ### 2.3 Embedding Pipeline
 > Context: `docs/02-indexing-and-search.md` → "Embedding Pipeline" section
 > Code example: Search for `class EmbeddingPipeline`
 
-- [ ] Implement `EmbeddingPipeline` class in `src/indexing/embeddings.py`
-- [ ] Add batching for API efficiency (batch_size=16)
-- [ ] Implement token counting with tiktoken
-- [ ] Add text truncation for over-limit chunks
-- [ ] Implement retry logic with exponential backoff (`_embed_with_retry()`)
-- [ ] Implement `embed_single()` for query embedding
-- [ ] Add cost tracking/logging
-- [ ] Create unit tests in `tests/unit/test_embeddings.py`
+- [x] Implement `EmbeddingPipeline` class in `src/indexing/embeddings.py`
+- [x] Add batching for API efficiency (batch_size=16)
+- [x] Implement token counting with tiktoken
+- [x] Add text truncation for over-limit chunks
+- [x] Implement retry logic with exponential backoff (`_embed_with_retry()`)
+- [x] Implement `embed_single()` for query embedding
+- [x] Add cost tracking/logging
+- [x] Create unit tests in `tests/unit/test_embeddings.py`
 
 ### 2.4 Azure AI Search Index
 > Context: `docs/02-indexing-and-search.md` → "Azure AI Search Index" section
 > Code example: Search for `def create_infra_index()`
 
-- [ ] Implement `create_infra_index()` function with full schema in `src/indexing/search_index.py`
-- [ ] Configure vector search profile (HNSW algorithm)
-- [ ] Configure semantic search configuration
-- [ ] Implement `SearchIndexManager` class
-- [ ] Implement `SearchIndexer` class for batch uploads in `src/indexing/indexer.py`
-- [ ] Add `delete_documents()` method
-- [ ] Create integration tests in `tests/integration/test_search_index.py`
+- [x] Implement `create_infra_index()` function with full schema in `src/indexing/search_index.py`
+- [x] Configure vector search profile (HNSW algorithm)
+- [x] Configure semantic search configuration
+- [x] Implement `SearchIndexManager` class
+- [x] Implement `SearchIndexer` class for batch uploads in `src/indexing/indexer.py`
+- [x] Add `delete_documents()` method
+- [x] Create integration tests in `tests/integration/test_search_index.py`
 
 ### 2.5 Graph Database
 > Context: `docs/02-indexing-and-search.md` → "Graph Database Schema" section
 > Code example: Search for `class GraphBuilder`
 
-- [ ] Implement `GraphBuilder` class in `src/indexing/graph_builder.py`
-- [ ] Implement `add_subscription()` method
-- [ ] Implement `add_resource_group()` method with edge to subscription
-- [ ] Implement `add_azure_resource()` method with edge to resource group
-- [ ] Implement `add_resource_dependency()` for resource relationships
-- [ ] Implement `link_terraform_to_azure()` for IaC linkage
-- [ ] Implement `find_dependencies()` for traversal queries
-- [ ] Implement `find_terraform_for_resource()`
-- [ ] Create integration tests in `tests/integration/test_graph_builder.py`
+- [x] Implement `GraphBuilder` class in `src/indexing/graph_builder.py`
+- [x] Implement `add_subscription()` method
+- [x] Implement `add_resource_group()` method with edge to subscription
+- [x] Implement `add_azure_resource()` method with edge to resource group
+- [x] Implement `add_resource_dependency()` for resource relationships
+- [x] Implement `link_terraform_to_azure()` for IaC linkage
+- [x] Implement `find_dependencies()` for traversal queries
+- [x] Implement `find_terraform_for_resource()`
+- [x] Create integration tests in `tests/integration/test_graph_builder.py`
 
 ### 2.6 Hybrid Search Engine
 > Context: `docs/02-indexing-and-search.md` → "Hybrid Search Implementation" section
 > Code example: Search for `class HybridSearchEngine`
 
-- [ ] Create `SearchResult` and `HybridSearchResults` dataclasses in `src/search/models.py`
-- [ ] Implement `HybridSearchEngine` class in `src/search/hybrid_search.py`
-- [ ] Implement `_vector_search()` method
-- [ ] Implement `_keyword_search()` method with semantic ranking
-- [ ] Implement `_hybrid_search()` combining both
-- [ ] Implement `_build_filter()` for OData expressions
-- [ ] Implement `search_with_graph_expansion()` for relationship-aware search
-- [ ] Add facet support
-- [ ] Create unit tests in `tests/unit/test_hybrid_search.py`
+- [x] Create `SearchResult` and `HybridSearchResults` dataclasses in `src/search/models.py`
+- [x] Implement `HybridSearchEngine` class in `src/search/hybrid_search.py`
+- [x] Implement `_vector_search()` method
+- [x] Implement `_keyword_search()` method with semantic ranking
+- [x] Implement `_hybrid_search()` combining both
+- [x] Implement `_build_filter()` for OData expressions
+- [x] Implement `search_with_graph_expansion()` for relationship-aware search
+- [x] Add facet support
+- [x] Create unit tests in `tests/unit/test_hybrid_search.py`
 
 ### 2.7 Indexing Pipeline Integration
 - [ ] Create indexing orchestrator that chains chunking → embedding → indexing
