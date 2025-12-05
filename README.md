@@ -2,8 +2,6 @@
 
 An AI-powered assistant that answers questions about your Azure cloud infrastructure and Terraform IaC by understanding your live resource state, infrastructure code, and change history.
 
-**CRITICAL REQUIREMENT: All Azure resources for this project MUST be deployed in Canada East (`canadaeast`) or Canada Central (`canadacentral`) regions.**
-
 ## What It Does
 
 Ask natural language questions like:
@@ -60,4 +58,4 @@ See [docs/PLAN.md](./docs/PLAN.md) for the full architecture documentation.
 
 ## License
 
-MIT License - see [LICENSE](./LICENSE) for details.
+Apache 2.0 License - see [LICENSE](./LICENSE) for details.
