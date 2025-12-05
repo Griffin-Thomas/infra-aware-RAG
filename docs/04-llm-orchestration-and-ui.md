@@ -1745,19 +1745,19 @@ sse-starlette>=1.8.0
 
 ## Milestones
 
-### Milestone 4.1: Orchestration (End of Week 10)
+### Milestone 4.1: Orchestration
 - LLM integration working
 - Tool execution loop complete
 - Conversation management operational
 - Basic prompts working
 
-### Milestone 4.2: Chat UI (End of Week 11)
+### Milestone 4.2: Chat UI
 - React chat application working
 - Streaming display functional
 - Authentication integrated
 - Deployed to Azure
 
-### Milestone 4.3: CLI & Polish (End of Week 12)
+### Milestone 4.3: CLI & Polish
 - CLI tool complete and packaged
 - Error handling refined
 - Performance optimized

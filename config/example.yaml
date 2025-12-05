@@ -1,0 +1,163 @@
+# Infra-Aware RAG Configuration Example
+# Copy this to dev.yaml or local.yaml and customize for your environment
+
+azure:
+  # CRITICAL: All resources MUST be in Canada East or Canada Central
+  region: canadaeast  # or canadacentral
+
+  openai:
+    endpoint: https://your-openai-resource.openai.azure.com
+    api_version: "2024-02-15-preview"
+    deployment_name: gpt-4
+    embedding_deployment: text-embedding-3-large
+    max_retries: 3
+    timeout: 30
+
+  search:
+    endpoint: https://your-search-service.search.windows.net
+    index_name: infra-rag-index
+
+  cosmos_db:
+    endpoint: https://your-cosmosdb-account.documents.azure.com
+    database_name: infra-rag
+    containers:
+      documents: documents
+      conversations: conversations
+
+    # Graph DB for relationships (Gremlin API)
+    graph_endpoint: https://your-gremlin-account.gremlin.cosmos.azure.com
+    graph_database: infra-graph
+
+  service_bus:
+    namespace: your-servicebus-namespace.servicebus.windows.net
+    queues:
+      ingestion_jobs: ingestion-jobs
+      dead_letter: ingestion-dlq
+
+  key_vault:
+    url: https://your-keyvault.vault.azure.net
+
+ingestion:
+  # Azure Resource Graph settings
+  azure_resource_graph:
+    enabled: true
+    # List of subscription IDs to query (empty = all accessible)
+    subscription_ids: []
+    # Resource types to include (empty = all)
+    resource_types: []
+    # Polling interval for incremental updates (hours)
+    poll_interval: 6
+
+  # Terraform settings
+  terraform:
+    enabled: true
+    # Directories to scan for .tf files
+    scan_directories:
+      - ./infrastructure
+      - ./terraform
+    # State file locations (local or Azure Storage)
+    state_files: []
+
+  # Git settings
+  git:
+    enabled: true
+    repositories: []
+      # - url: https://github.com/org/repo
+      #   branch: main
+      #   path: terraform/
+      #   clone_depth: 100
+
+  # Batch processing
+  batch_size: 100
+  max_workers: 4
+
+indexing:
+  # Chunking strategy
+  chunking:
+    max_chunk_size: 1000  # characters
+    overlap: 200
+
+  # Embedding settings
+  embedding:
+    batch_size: 16
+    max_tokens: 8191
+    retry_attempts: 3
+
+  # Vector search configuration
+  vector_search:
+    algorithm: hnsw
+    dimensions: 3072  # text-embedding-3-large
+    metric: cosine
+
+  # Incremental indexing
+  incremental:
+    enabled: true
+    check_interval: 300  # seconds
+
+search:
+  # Hybrid search weights
+  vector_weight: 0.5
+  keyword_weight: 0.5
+
+  # Result limits
+  top_k: 10
+  max_results: 50
+
+  # Semantic ranking
+  semantic_ranking: true
+
+  # Graph expansion
+  graph_expansion:
+    enabled: true
+    max_hops: 2
+
+orchestration:
+  # LLM settings
+  llm:
+    model: gpt-4
+    temperature: 0.1
+    max_tokens: 4096
+    stream: true
+
+  # Conversation settings
+  conversation:
+    max_context_messages: 20
+    context_window_tokens: 8000
+    enable_summarization: true
+    summary_trigger_tokens: 6000
+
+  # Tool execution
+  tools:
+    timeout: 30  # seconds
+    max_iterations: 10  # max tool call loops
+
+api:
+  host: 0.0.0.0
+  port: 8000
+  cors:
+    enabled: true
+    origins:
+      - http://localhost:3000
+      - http://localhost:5173
+
+  # Rate limiting
+  rate_limit:
+    enabled: true
+    requests_per_minute: 60
+
+  # Authentication
+  auth:
+    enabled: true
+    issuer: https://login.microsoftonline.com/{tenant-id}/v2.0
+    audience: api://your-app-id
+
+logging:
+  level: INFO
+  format: json
+  application_insights:
+    enabled: true
+    connection_string: ""
+
+monitoring:
+  health_check_interval: 30
+  metrics_enabled: true

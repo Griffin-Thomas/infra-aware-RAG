@@ -6,30 +6,30 @@
 
 | Phase | Status | Progress |
 |-------|--------|----------|
-| Phase 0: Project Setup | Not Started | 0/8 |
-| Phase 1: Data Ingestion | Not Started | 0/45 |
-| Phase 2: Indexing & Search | Not Started | 0/38 |
-| Phase 3: API & Tools | Not Started | 0/42 |
-| Phase 4: LLM & UI | Not Started | 0/40 |
+| Phase 0: Project Setup      | ✅ Complete  | 8/8   |
+| Phase 1: Data Ingestion     | In Progress | 51/71 |
+| Phase 2: Indexing & Search  | Not Started | 0/49  |
+| Phase 3: API & Tools        | Not Started | 0/61  |
+| Phase 4: LLM & UI           | Not Started | 0/77  |
 
 ---
 
-## Phase 0: Project Setup
+## Phase 0: Project Setup ✅
 
 > **Goal**: Set up the development environment and project scaffolding.
 > **Docs**: See `docs/PLAN.md` for technology stack decisions.
 
-### Repository Structure
-- [ ] Create `src/` directory structure (`ingestion/`, `indexing/`, `api/`, `orchestration/`, `cli/`)
-- [ ] Create `tests/` directory structure mirroring `src/`
-- [ ] Create `config/` directory for configuration files
-- [ ] Create `infrastructure/` directory for deployment Terraform
+### Repository Structure ✅
+- [x] Create `src/` directory structure (`ingestion/`, `indexing/`, `api/`, `orchestration/`, `cli/`)
+- [x] Create `tests/` directory structure mirroring `src/`
+- [x] Create `config/` directory for configuration files
+- [x] Create `infrastructure/` directory for deployment Terraform
 
-### Python Project Setup
-- [ ] Create `pyproject.toml` with project metadata and dependencies
-- [ ] Create `requirements.txt` for pip compatibility
-- [ ] Create `requirements-dev.txt` for development dependencies
-- [ ] Set up pytest configuration (`pytest.ini` or in `pyproject.toml`)
+### Python Project Setup ✅
+- [x] Create `pyproject.toml` with project metadata and dependencies
+- [x] Create `requirements.txt` for pip compatibility
+- [x] Create `requirements-dev.txt` for development dependencies
+- [x] Set up pytest configuration (`pytest.ini` or in `pyproject.toml`)
 
 ---
 
@@ -37,11 +37,11 @@
 
 > **Goal**: Build connectors to ingest data from Azure, Terraform, and Git sources.
 > **Docs**: See `docs/01-data-ingestion.md` for detailed specifications.
-> **Milestone 1.1**: Azure integration (Week 1)
-> **Milestone 1.2**: Terraform parsing (Week 2)
-> **Milestone 1.3**: Git integration (Week 3)
+> **Milestone 1.1**: Azure integration
+> **Milestone 1.2**: Terraform parsing
+> **Milestone 1.3**: Git integration
 
-### 1.1 Azure Infrastructure Setup
+### 1.1 Azure Infrastructure Setup ✅
 > Context: `docs/01-data-ingestion.md` → "Setup & Infrastructure" section
 > **CRITICAL: All resources MUST be deployed in Canada East or Canada Central**
 
@@ -53,86 +53,86 @@
 - [ ] Set up Managed Identity for service authentication
 - [ ] Create development environment configuration (`config/dev.yaml`) with Canadian region settings
 
-### 1.2 Data Models
+### 1.2 Data Models ✅
 > Context: `docs/01-data-ingestion.md` → "Data Model" section
 
-- [ ] Create `src/models/__init__.py`
-- [ ] Implement `AzureResourceDocument` Pydantic model
-- [ ] Implement `TerraformResourceDocument` Pydantic model
-- [ ] Implement `TerraformStateDocument` and `TerraformStateResource` models
-- [ ] Implement `TerraformPlanDocument` and `PlannedChange` models
-- [ ] Implement `GitCommitDocument` and `GitFileChange` models
-- [ ] Add `generate_searchable_text()` methods to all document models
-- [ ] Create JSON schema exports for documentation
+- [x] Create `src/models/__init__.py`
+- [x] Implement `AzureResourceDocument` Pydantic model
+- [x] Implement `TerraformResourceDocument` Pydantic model
+- [x] Implement `TerraformStateDocument` and `TerraformStateResource` models
+- [x] Implement `TerraformPlanDocument` and `PlannedChange` models
+- [x] Implement `GitCommitDocument` and `GitFileChange` models
+- [x] Add `generate_searchable_text()` methods to all document models
+- [x] Create JSON schema exports for documentation
 
-### 1.3 Azure Resource Graph Connector
+### 1.3 Azure Resource Graph Connector ✅
 > Context: `docs/01-data-ingestion.md` → "Azure Resource Graph Connector" section
 > Code example: Search for `class AzureResourceGraphConnector`
 
-- [ ] Create `src/ingestion/__init__.py`
-- [ ] Create `src/ingestion/connectors/__init__.py`
-- [ ] Implement `AzureResourceGraphConnector` class in `src/ingestion/connectors/azure_resource_graph.py`
-- [ ] Add pagination handling for large result sets
-- [ ] Implement subscription enumeration method
-- [ ] Add resource type filtering
-- [ ] Implement `fetch_resource_by_id()` method
-- [ ] Implement `fetch_resource_types()` summary method
-- [ ] Add retry logic with exponential backoff
-- [ ] Create unit tests in `tests/unit/test_azure_resource_graph.py`
-- [ ] Create integration tests in `tests/integration/test_azure_resource_graph.py`
+- [x] Create `src/ingestion/__init__.py`
+- [x] Create `src/ingestion/connectors/__init__.py`
+- [x] Implement `AzureResourceGraphConnector` class in `src/ingestion/connectors/azure_resource_graph.py`
+- [x] Add pagination handling for large result sets
+- [x] Implement subscription enumeration method
+- [x] Add resource type filtering
+- [x] Implement `fetch_resource_by_id()` method
+- [x] Implement `fetch_resource_types()` summary method
+- [x] Add retry logic with exponential backoff
+- [x] Create unit tests in `tests/unit/test_azure_resource_graph.py`
+- [x] Create integration tests in `tests/integration/test_azure_resource_graph.py`
 
-### 1.4 Terraform HCL Connector
+### 1.4 Terraform HCL Connector ✅
 > Context: `docs/01-data-ingestion.md` → "Terraform HCL Connector" section
 > Code example: Search for `class TerraformHCLConnector`
 
-- [ ] Implement `TerraformHCLConnector` class in `src/ingestion/connectors/terraform_hcl.py`
-- [ ] Add HCL2 parsing for `.tf` files using `python-hcl2`
-- [ ] Add JSON parsing for `.tf.json` files
-- [ ] Implement `_extract_resources()` method
-- [ ] Implement `_extract_data_sources()` method
-- [ ] Implement `_extract_variables()` method
-- [ ] Implement `_extract_outputs()` method
-- [ ] Implement `_extract_modules()` method
-- [ ] Implement `_extract_providers()` method
-- [ ] Track source file and line numbers for each resource
-- [ ] Create unit tests with sample Terraform files in `tests/unit/test_terraform_hcl.py`
+- [x] Implement `TerraformHCLConnector` class in `src/ingestion/connectors/terraform_hcl.py`
+- [x] Add HCL2 parsing for `.tf` files using `python-hcl2`
+- [x] Add JSON parsing for `.tf.json` files
+- [x] Implement `_extract_resources()` method
+- [x] Implement `_extract_data_sources()` method
+- [x] Implement `_extract_variables()` method
+- [x] Implement `_extract_outputs()` method
+- [x] Implement `_extract_modules()` method
+- [x] Implement `_extract_providers()` method
+- [x] Track source file and line numbers for each resource
+- [x] Create unit tests with sample Terraform files in `tests/unit/test_terraform_hcl.py`
 
 ### 1.5 Terraform State Connector
 > Context: `docs/01-data-ingestion.md` → "Terraform State Connector" section
 > Code example: Search for `class TerraformStateConnector`
 
-- [ ] Implement `TerraformStateConnector` class in `src/ingestion/connectors/terraform_state.py`
-- [ ] Add state file parsing (v4 format)
-- [ ] Implement `_find_sensitive_attributes()` for secret detection
-- [ ] Implement `_redact_sensitive()` for sanitizing sensitive data
-- [ ] Implement `_process_outputs()` with sensitive filtering
+- [x] Implement `TerraformStateConnector` class in `src/ingestion/connectors/terraform_state.py`
+- [x] Add state file parsing (v4 format)
+- [x] Implement `_find_sensitive_attributes()` for secret detection
+- [x] Implement `_redact_sensitive()` for sanitizing sensitive data
+- [x] Implement `_process_outputs()` with sensitive filtering
 - [ ] Add support for reading from Azure Storage backend (future)
 - [ ] Handle large state files with streaming (future)
-- [ ] Create unit tests with sample state files in `tests/unit/test_terraform_state.py`
+- [x] Create unit tests with sample state files in `tests/unit/test_terraform_state.py`
 
-### 1.6 Terraform Plan Connector
+### 1.6 Terraform Plan Connector ✅
 > Context: `docs/01-data-ingestion.md` → "Terraform Plan Document" section
 
-- [ ] Create `src/ingestion/connectors/terraform_plan.py`
-- [ ] Implement plan JSON parsing (`terraform plan -json` output)
-- [ ] Extract planned changes (create/update/delete/replace)
-- [ ] Compute attribute-level diffs
-- [ ] Generate human-readable change summaries
-- [ ] Create unit tests with sample plan outputs
+- [x] Create `src/ingestion/connectors/terraform_plan.py`
+- [x] Implement plan JSON parsing (`terraform plan -json` output)
+- [x] Extract planned changes (create/update/delete/replace)
+- [x] Compute attribute-level diffs
+- [x] Generate human-readable change summaries
+- [x] Create unit tests with sample plan outputs
 
-### 1.7 Git Connector
+### 1.7 Git Connector ✅
 > Context: `docs/01-data-ingestion.md` → "Git Connector" section
 > Code example: Search for `class GitConnector`
 
-- [ ] Implement `GitConnector` class in `src/ingestion/connectors/git_connector.py`
-- [ ] Add repository cloning with `clone_or_update()` method
-- [ ] Implement `get_commits()` with date filtering
-- [ ] Implement `_process_commit()` to extract metadata
-- [ ] Implement `_get_change_type()` for diff analysis
-- [ ] Add `get_file_content()` for retrieving files at specific refs
-- [ ] Implement `_get_authenticated_url()` for GitHub and Azure DevOps
-- [ ] Add `cleanup()` method for removing cloned repos
-- [ ] Create unit tests in `tests/unit/test_git_connector.py`
+- [x] Implement `GitConnector` class in `src/ingestion/connectors/git_connector.py`
+- [x] Add repository cloning with authentication support
+- [x] Implement commit extraction with date/author filtering
+- [x] Implement file change extraction with diff analysis
+- [x] Filter for Terraform-related changes (*.tf, *.tfvars, etc.)
+- [x] Extract commit metadata (author, committer, message)
+- [x] Handle renames, additions, deletions, modifications
+- [x] Convert commits to GitCommitDocument
+- [x] Create unit tests in `tests/unit/test_git_connector.py`
 
 ### 1.8 Ingestion Orchestrator
 > Context: `docs/01-data-ingestion.md` → "Ingestion Orchestrator" section
@@ -156,9 +156,9 @@
 
 > **Goal**: Create embeddings, build vector indexes, and establish a graph of relationships.
 > **Docs**: See `docs/02-indexing-and-search.md` for detailed specifications.
-> **Milestone 2.1**: Embedding pipeline (Week 4)
-> **Milestone 2.2**: Vector index (Week 5)
-> **Milestone 2.3**: Graph database (Week 6)
+> **Milestone 2.1**: Embedding pipeline
+> **Milestone 2.2**: Vector index
+> **Milestone 2.3**: Graph database
 
 ### 2.1 Azure Infrastructure for Indexing
 > **CRITICAL: All resources MUST be deployed in Canada East or Canada Central**
@@ -246,9 +246,9 @@
 
 > **Goal**: Build the API layer and define tools the LLM can use.
 > **Docs**: See `docs/03-api-and-tools.md` for detailed specifications.
-> **Milestone 3.1**: Core API (Week 7)
-> **Milestone 3.2**: Full API surface (Week 8)
-> **Milestone 3.3**: LLM tools (Week 9)
+> **Milestone 3.1**: Core API
+> **Milestone 3.2**: Full API surface
+> **Milestone 3.3**: LLM tools
 
 ### 3.1 API Framework Setup
 > Context: `docs/03-api-and-tools.md` → "FastAPI Implementation" section
@@ -361,9 +361,9 @@
 
 > **Goal**: Integrate the LLM, build conversation management, and create user interfaces.
 > **Docs**: See `docs/04-llm-orchestration-and-ui.md` for detailed specifications.
-> **Milestone 4.1**: Orchestration (Week 10)
-> **Milestone 4.2**: Chat UI (Week 11)
-> **Milestone 4.3**: CLI & Polish (Week 12)
+> **Milestone 4.1**: Orchestration
+> **Milestone 4.2**: Chat UI
+> **Milestone 4.3**: CLI & Polish
 
 ### 4.1 Orchestration Engine
 > Context: `docs/04-llm-orchestration-and-ui.md` → "Orchestration Engine" section

@@ -1,0 +1,104 @@
+{
+  "format_version": "1.2",
+  "terraform_version": "1.5.0",
+  "resource_changes": [
+    {
+      "address": "azurerm_resource_group.main",
+      "type": "azurerm_resource_group",
+      "provider_name": "registry.terraform.io/hashicorp/azurerm",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "location": "canadaeast",
+          "name": "rg-test",
+          "tags": {
+            "Environment": "Test"
+          }
+        },
+        "after_unknown": {
+          "id": true
+        }
+      }
+    },
+    {
+      "address": "azurerm_virtual_network.main",
+      "type": "azurerm_virtual_network",
+      "provider_name": "registry.terraform.io/hashicorp/azurerm",
+      "change": {
+        "actions": ["update"],
+        "before": {
+          "name": "vnet-old",
+          "address_space": ["10.0.0.0/16"],
+          "location": "canadaeast"
+        },
+        "after": {
+          "name": "vnet-new",
+          "address_space": ["10.1.0.0/16"],
+          "location": "canadaeast"
+        },
+        "after_unknown": {}
+      }
+    },
+    {
+      "address": "azurerm_storage_account.old",
+      "type": "azurerm_storage_account",
+      "provider_name": "registry.terraform.io/hashicorp/azurerm",
+      "change": {
+        "actions": ["delete"],
+        "before": {
+          "name": "storageold",
+          "location": "canadaeast"
+        },
+        "after": null,
+        "after_unknown": {}
+      }
+    },
+    {
+      "address": "azurerm_public_ip.web",
+      "type": "azurerm_public_ip",
+      "provider_name": "registry.terraform.io/hashicorp/azurerm",
+      "change": {
+        "actions": ["delete", "create"],
+        "before": {
+          "name": "pip-old",
+          "sku": "Basic"
+        },
+        "after": {
+          "name": "pip-new",
+          "sku": "Standard"
+        },
+        "after_unknown": {
+          "id": true,
+          "ip_address": true
+        },
+        "action_reason": "replace_because_cannot_update"
+      }
+    },
+    {
+      "address": "data.azurerm_client_config.current",
+      "type": "azurerm_client_config",
+      "provider_name": "registry.terraform.io/hashicorp/azurerm",
+      "change": {
+        "actions": ["read"],
+        "before": null,
+        "after": null,
+        "after_unknown": {}
+      }
+    },
+    {
+      "address": "azurerm_subnet.unchanged",
+      "type": "azurerm_subnet",
+      "provider_name": "registry.terraform.io/hashicorp/azurerm",
+      "change": {
+        "actions": ["no-op"],
+        "before": {
+          "name": "subnet-1"
+        },
+        "after": {
+          "name": "subnet-1"
+        }
+      }
+    }
+  ]
+}

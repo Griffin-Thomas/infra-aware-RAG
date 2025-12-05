@@ -94,7 +94,7 @@ The system enables DevOps engineers, SREs, and cloud architects to ask natural l
 
 ## Implementation Phases
 
-### Phase 1: Data Ingestion (Weeks 1-3)
+### Phase 1: Data Ingestion
 **Goal:** Build connectors to ingest data from Azure, Terraform, and Git sources.
 
 See: [01-data-ingestion.md](./01-data-ingestion.md)
@@ -108,7 +108,7 @@ See: [01-data-ingestion.md](./01-data-ingestion.md)
 
 ---
 
-### Phase 2: Indexing and Search (Weeks 4-6)
+### Phase 2: Indexing and Search
 **Goal:** Create embeddings, build vector indexes, and establish a graph of relationships.
 
 See: [02-indexing-and-search.md](./02-indexing-and-search.md)
@@ -122,7 +122,7 @@ See: [02-indexing-and-search.md](./02-indexing-and-search.md)
 
 ---
 
-### Phase 3: API and Tools (Weeks 7-9)
+### Phase 3: API and Tools
 **Goal:** Build the API layer and define tools the LLM can use.
 
 See: [03-api-and-tools.md](./03-api-and-tools.md)
@@ -136,7 +136,7 @@ See: [03-api-and-tools.md](./03-api-and-tools.md)
 
 ---
 
-### Phase 4: LLM Orchestration and UI (Weeks 10-12)
+### Phase 4: LLM Orchestration and UI
 **Goal:** Integrate the LLM, build conversation management, and create the user interface.
 
 See: [04-llm-orchestration-and-ui.md](./04-llm-orchestration-and-ui.md)
@@ -156,7 +156,7 @@ See: [04-llm-orchestration-and-ui.md](./04-llm-orchestration-and-ui.md)
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                              ENTITY RELATIONSHIPS                            │
+│                              ENTITY RELATIONSHIPS                           │
 └─────────────────────────────────────────────────────────────────────────────┘
 
 AzureResource ─────────────── manages ──────────────▶ TerraformResource

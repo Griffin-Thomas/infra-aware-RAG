@@ -1514,20 +1514,20 @@ mypy>=1.7.0
 
 ## Milestones
 
-### Milestone 1.1: Azure Integration (End of Week 1)
+### Milestone 1.1: Azure Integration
 - Azure Resource Graph connector complete
 - Can fetch resources from 1+ subscriptions
 - Documents stored in Cosmos DB
 - Basic unit and integration tests passing
 
-### Milestone 1.2: Terraform Parsing (End of Week 2)
+### Milestone 1.2: Terraform Parsing
 - HCL parser complete
 - State file parser complete
 - Plan parser complete
 - All Terraform document types stored
 - Linking between Terraform resources and Azure resources
 
-### Milestone 1.3: Git Integration (End of Week 3)
+### Milestone 1.3: Git Integration
 - Git connector complete
 - Commit history ingestion working
 - Terraform change detection working

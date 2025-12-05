@@ -1573,20 +1573,20 @@ aiocache>=0.12.0
 
 ## Milestones
 
-### Milestone 2.1: Embedding Pipeline (End of Week 4)
+### Milestone 2.1: Embedding Pipeline
 - Chunking implemented for all document types
 - Embedding generation working
 - Token counting and cost tracking
 - Unit tests passing
 
-### Milestone 2.2: Vector Index (End of Week 5)
+### Milestone 2.2: Vector Index
 - Azure AI Search index created
 - Documents indexed with embeddings
 - Vector search working
 - Keyword and hybrid search working
 - Filtering and faceting operational
 
-### Milestone 2.3: Graph Database (End of Week 6)
+### Milestone 2.3: Graph Database
 - Graph schema implemented
 - Relationships populated from ingested data
 - Graph queries working

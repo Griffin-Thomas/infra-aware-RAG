@@ -1947,19 +1947,19 @@ httpx>=0.26.0
 
 ## Milestones
 
-### Milestone 3.1: Core API (End of Week 7)
+### Milestone 3.1: Core API
 - FastAPI application deployed
 - Authentication working
 - Search endpoints operational
 - Rate limiting implemented
 
-### Milestone 3.2: Full API Surface (End of Week 8)
+### Milestone 3.2: Full API Surface
 - All resource endpoints working
 - All Terraform endpoints working
 - All Git endpoints working
 - API documentation complete
 
-### Milestone 3.3: LLM Tools (End of Week 9)
+### Milestone 3.3: LLM Tools
 - Tool definitions complete
 - Tool execution endpoint working
 - All tools tested

@@ -1,35 +1,63 @@
 # Environment files
 .env
 .env.*
+!.env.example
 env/
 venv/
 .venv/
+ENV/
+env.bak/
+venv.bak/
 
 # Python artifacts
 __pycache__/
 *.py[cod]
+*$py.class
 *.so
+.Python
 .python-version
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
-.ipynb_checkpoints
+.ipynb_checkpoints/
 *.sqlite3
+.hypothesis/
+.pyre/
+.pytype/
 
 # Packaging / build
 build/
+develop-eggs/
 dist/
-*.egg-info/
+downloads/
+eggs/
 .eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Testing
 .coverage
 coverage.xml
+htmlcov/
+.tox/
 
 # Editors and OS
 .vscode/
 .idea/
 .DS_Store
+.AppleDouble
+.LSOverride
 *.swp
 *.swo
+*~
 
 # Documentation and prompt drafts
 *PROMPT.md
@@ -37,4 +65,28 @@ CLAUDE.md
 
 # Logs and caches
 *.log
+logs/
 .cache/
+
+# Azure
+.azure/
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+
+# Git repos cloned by connector
+data/git_repos/
+
+# Configuration (may contain secrets)
+config/local.yaml
+config/*.local.yaml
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.next/
+frontend/out/
+frontend/build/
