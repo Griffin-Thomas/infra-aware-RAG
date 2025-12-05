@@ -46,15 +46,9 @@ All Azure services deployed in **Canada East** or **Canada Central**:
 
 ## Getting Started
 
-See [CLAUDE.md](./CLAUDE.md) for project setup and contribution guidelines.
-
 See [TASKS.md](./TASKS.md) for the current task list and progress tracking.
 
 See [docs/PLAN.md](./docs/PLAN.md) for the full architecture documentation.
-
-## Status
-
-**Early Development** - Phase 0 (Project Setup) in progress.
 
 ## License
 

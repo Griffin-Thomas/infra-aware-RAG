@@ -6,7 +6,7 @@
 
 | Phase | Status | Progress |
 |-------|--------|----------|
-| Phase 0: Project Setup      | ✅ Complete  | 8/8   |
+| Phase 0: Project Setup      | ✅ Complete  | 9/9   |
 | Phase 1: Data Ingestion     | In Progress | 51/71 |
 | Phase 2: Indexing & Search  | Not Started | 0/49  |
 | Phase 3: API & Tools        | Not Started | 0/61  |
@@ -23,6 +23,7 @@
 - [x] Create `src/` directory structure (`ingestion/`, `indexing/`, `api/`, `orchestration/`, `cli/`)
 - [x] Create `tests/` directory structure mirroring `src/`
 - [x] Create `config/` directory for configuration files
+- [x] Create `frontend/` directory for React chat UI
 - [x] Create `infrastructure/` directory for deployment Terraform
 
 ### Python Project Setup ✅
