@@ -8,7 +8,7 @@
 |-------|--------|----------|
 | Phase 0: Project Setup      | ✅ Complete  | 9/9   |
 | Phase 1: Data Ingestion     | In Progress | 62/71 |
-| Phase 2: Indexing & Search  | In Progress | 41/49 |
+| Phase 2: Indexing & Search  | In Progress | 46/49 |
 | Phase 3: API & Tools        | Not Started | 0/61  |
 | Phase 4: LLM & UI           | Not Started | 0/77  |
 
@@ -42,7 +42,7 @@
 > **Milestone 1.2**: Terraform parsing
 > **Milestone 1.3**: Git integration
 
-### 1.1 Azure Infrastructure Setup ✅
+### 1.1 Azure Infrastructure Setup
 > Context: `docs/01-data-ingestion.md` → "Setup & Infrastructure" section
 > **CRITICAL: All resources MUST be deployed in Canada East or Canada Central**
 
@@ -239,11 +239,11 @@
 - [x] Create unit tests in `tests/unit/test_hybrid_search.py`
 
 ### 2.7 Indexing Pipeline Integration
-- [ ] Create indexing orchestrator that chains chunking → embedding → indexing
-- [ ] Integrate with Phase 1 ingestion pipeline (trigger on new documents)
-- [ ] Add incremental indexing support (only new/changed documents)
-- [ ] Implement index refresh scheduling
-- [ ] Add monitoring and alerting for indexing failures
+- [x] Create indexing orchestrator that chains chunking → embedding → indexing
+- [x] Integrate with Phase 1 ingestion pipeline (trigger on new documents)
+- [x] Add incremental indexing support (only new/changed documents)
+- [x] Implement index refresh scheduling
+- [x] Add monitoring and alerting for indexing failures
 
 ---
 
