@@ -30,18 +30,74 @@ All Azure services deployed in **Canada East** or **Canada Central**:
 ## Repository Structure
 
 ```
+/
 ├── CLAUDE.md           # Instructions for AI agents working on this project
-├── TASKS.md            # Master task list - start here for work items
-├── docs/
-│   ├── PLAN.md         # Architecture overview
+├── TASKS.md            # ⭐ MASTER TASK LIST - current progress tracker
+├── README.md           # Project overview
+├── requirements.txt    # Python dependencies
+├── pyproject.toml      # Project configuration
+├── .venv/              # Virtual environment
+│
+├── docs/               # Architecture & design documentation
+│   ├── PLAN.md         # Architecture overview & decisions
 │   ├── 01-data-ingestion.md
 │   ├── 02-indexing-and-search.md
 │   ├── 03-api-and-tools.md
-│   └── 04-llm-orchestration-and-ui.md
-├── src/                # Python source code
-├── frontend/           # React chat UI
-├── tests/              # Test suite
-└── infrastructure/     # Terraform for deployment
+│   ├── 04-llm-orchestration-and-ui.md
+│   └── schemas/        # Exported JSON schemas
+│
+├── src/                # Production code
+│   ├── models/         # Data models (Pydantic)
+│   │   ├── documents.py       # Document models for all data types
+│   │   └── schema_export.py   # JSON schema export utilities
+│   │
+│   ├── ingestion/      # Phase 1: Data collection
+│   │   ├── connectors/        # Data source connectors
+│   │   │   ├── azure_resource_graph.py
+│   │   │   ├── terraform_hcl.py
+│   │   │   ├── terraform_state.py
+│   │   │   ├── terraform_plan.py
+│   │   │   └── git_connector.py
+│   │   ├── models.py          # Ingestion job models
+│   │   └── orchestrator.py    # Job scheduling & coordination
+│   │
+│   ├── indexing/       # Phase 2: Embeddings & indexing
+│   │   ├── models.py          # Chunk data model
+│   │   ├── chunkers.py        # Document chunking strategies
+│   │   ├── embeddings.py      # Azure OpenAI embedding pipeline
+│   │   ├── search_index.py    # Azure AI Search schema
+│   │   ├── indexer.py         # Batch upload to search index
+│   │   ├── graph_builder.py   # Cosmos DB Gremlin graph population
+│   │   ├── orchestrator.py    # Indexing pipeline orchestration
+│   │   ├── change_feed.py     # Real-time indexing via change feed
+│   │   └── monitoring.py      # Health monitoring & alerting
+│   │
+│   ├── search/         # Hybrid search engine
+│   │   ├── models.py          # Search result models
+│   │   └── hybrid_search.py   # Vector + keyword + graph search
+│   │
+│   ├── api/            # Phase 3: FastAPI application (0/61 tasks)
+│   │   ├── middleware/        # Auth, rate limiting, logging
+│   │   ├── models/            # Request/response models
+│   │   ├── routers/           # API endpoints
+│   │   ├── services/          # Business logic
+│   │   └── tools/             # LLM tool definitions
+│   │
+│   ├── orchestration/  # Phase 4: LLM integration (0/77 tasks)
+│   │   └── (not yet implemented)
+│   │
+│   └── cli/            # CLI tool (not yet implemented)
+│
+├── frontend/           # React + TypeScript chat UI (not yet implemented)
+│
+├── tests/              # Test suite (127+ tests passing)
+│   ├── unit/           # Unit tests (15+ files)
+│   ├── integration/    # Integration tests (3+ files)
+│   └── fixtures/       # Test data & fixtures
+│       └── terraform/  # Sample .tf files
+│
+├── config/             # Configuration files
+└── infrastructure/     # Terraform for deploying this project
 ```
 
 ## Getting Started
