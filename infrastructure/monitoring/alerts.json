@@ -1,0 +1,217 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "applicationInsightsName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the Application Insights resource"
+      }
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "canadaeast",
+      "metadata": {
+        "description": "Location for the alerts"
+      }
+    },
+    "actionGroupName": {
+      "type": "string",
+      "defaultValue": "InfraRAG-Alerts",
+      "metadata": {
+        "description": "Name of the action group"
+      }
+    },
+    "emailRecipients": {
+      "type": "array",
+      "defaultValue": [],
+      "metadata": {
+        "description": "Email addresses to receive alerts"
+      }
+    }
+  },
+  "variables": {
+    "appInsightsId": "[concat(resourceGroup().id, '/providers/Microsoft.Insights/components/', parameters('applicationInsightsName'))]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Insights/actionGroups",
+      "apiVersion": "2023-01-01",
+      "name": "[parameters('actionGroupName')]",
+      "location": "Global",
+      "properties": {
+        "groupShortName": "InfraRAG",
+        "enabled": true,
+        "copy": [
+          {
+            "name": "emailReceivers",
+            "count": "[length(parameters('emailRecipients'))]",
+            "input": {
+              "name": "[concat('Email-', copyIndex('emailReceivers'))]",
+              "emailAddress": "[parameters('emailRecipients')[copyIndex('emailReceivers')]]",
+              "useCommonAlertSchema": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Insights/metricAlerts",
+      "apiVersion": "2018-03-01",
+      "name": "High-Error-Rate",
+      "location": "Global",
+      "dependsOn": [
+        "[resourceId('Microsoft.Insights/actionGroups', parameters('actionGroupName'))]"
+      ],
+      "properties": {
+        "description": "Alert when error rate exceeds 5%",
+        "severity": 2,
+        "enabled": true,
+        "scopes": [
+          "[variables('appInsightsId')]"
+        ],
+        "evaluationFrequency": "PT5M",
+        "windowSize": "PT15M",
+        "criteria": {
+          "odata.type": "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria",
+          "allOf": [
+            {
+              "name": "ErrorRate",
+              "criterionType": "StaticThresholdCriterion",
+              "metricName": "requests/failed",
+              "metricNamespace": "microsoft.insights/components",
+              "operator": "GreaterThan",
+              "threshold": 5,
+              "timeAggregation": "Average"
+            }
+          ]
+        },
+        "actions": [
+          {
+            "actionGroupId": "[resourceId('Microsoft.Insights/actionGroups', parameters('actionGroupName'))]"
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Insights/metricAlerts",
+      "apiVersion": "2018-03-01",
+      "name": "High-Response-Time",
+      "location": "Global",
+      "dependsOn": [
+        "[resourceId('Microsoft.Insights/actionGroups', parameters('actionGroupName'))]"
+      ],
+      "properties": {
+        "description": "Alert when average response time exceeds 2 seconds",
+        "severity": 3,
+        "enabled": true,
+        "scopes": [
+          "[variables('appInsightsId')]"
+        ],
+        "evaluationFrequency": "PT5M",
+        "windowSize": "PT15M",
+        "criteria": {
+          "odata.type": "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria",
+          "allOf": [
+            {
+              "name": "ResponseTime",
+              "criterionType": "StaticThresholdCriterion",
+              "metricName": "requests/duration",
+              "metricNamespace": "microsoft.insights/components",
+              "operator": "GreaterThan",
+              "threshold": 2000,
+              "timeAggregation": "Average"
+            }
+          ]
+        },
+        "actions": [
+          {
+            "actionGroupId": "[resourceId('Microsoft.Insights/actionGroups', parameters('actionGroupName'))]"
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Insights/metricAlerts",
+      "apiVersion": "2018-03-01",
+      "name": "Low-Availability",
+      "location": "Global",
+      "dependsOn": [
+        "[resourceId('Microsoft.Insights/actionGroups', parameters('actionGroupName'))]"
+      ],
+      "properties": {
+        "description": "Alert when availability drops below 99%",
+        "severity": 1,
+        "enabled": true,
+        "scopes": [
+          "[variables('appInsightsId')]"
+        ],
+        "evaluationFrequency": "PT5M",
+        "windowSize": "PT15M",
+        "criteria": {
+          "odata.type": "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria",
+          "allOf": [
+            {
+              "name": "Availability",
+              "criterionType": "StaticThresholdCriterion",
+              "metricName": "availabilityResults/availabilityPercentage",
+              "metricNamespace": "microsoft.insights/components",
+              "operator": "LessThan",
+              "threshold": 99,
+              "timeAggregation": "Average"
+            }
+          ]
+        },
+        "actions": [
+          {
+            "actionGroupId": "[resourceId('Microsoft.Insights/actionGroups', parameters('actionGroupName'))]"
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Insights/scheduledQueryRules",
+      "apiVersion": "2021-08-01",
+      "name": "High-Exception-Rate",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Insights/actionGroups', parameters('actionGroupName'))]"
+      ],
+      "properties": {
+        "description": "Alert when exception rate is high",
+        "severity": 2,
+        "enabled": true,
+        "scopes": [
+          "[variables('appInsightsId')]"
+        ],
+        "evaluationFrequency": "PT5M",
+        "windowSize": "PT15M",
+        "criteria": {
+          "allOf": [
+            {
+              "query": "exceptions | summarize ExceptionCount=count() by bin(timestamp, 5m) | where ExceptionCount > 10",
+              "timeAggregation": "Count",
+              "operator": "GreaterThan",
+              "threshold": 0,
+              "failingPeriods": {
+                "numberOfEvaluationPeriods": 1,
+                "minFailingPeriodsToAlert": 1
+              }
+            }
+          ]
+        },
+        "actions": {
+          "actionGroups": [
+            "[resourceId('Microsoft.Insights/actionGroups', parameters('actionGroupName'))]"
+          ]
+        }
+      }
+    }
+  ],
+  "outputs": {
+    "actionGroupId": {
+      "type": "string",
+      "value": "[resourceId('Microsoft.Insights/actionGroups', parameters('actionGroupName'))]"
+    }
+  }
+}

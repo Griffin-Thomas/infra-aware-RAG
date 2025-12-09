@@ -1,0 +1,151 @@
+# Azure Container App configuration for Infra-Aware RAG API
+# This file defines the Container App resource configuration
+# Deploy with: az containerapp create --yaml containerapp.yaml
+
+# NOTE: Before deploying, replace the following placeholders:
+# - {RESOURCE_GROUP}: Your Azure resource group name
+# - {ENVIRONMENT}: Your Container Apps environment name
+# - {ACR_NAME}: Your Azure Container Registry name
+# - {IMAGE_TAG}: Docker image tag (e.g., latest, v1.0.0)
+
+location: canadaeast  # IMPORTANT: Must be Canada East or Canada Central
+resourceGroup: {RESOURCE_GROUP}
+name: infra-rag-api
+type: Microsoft.App/containerApps
+
+properties:
+  environmentId: /subscriptions/{SUBSCRIPTION_ID}/resourceGroups/{RESOURCE_GROUP}/providers/Microsoft.App/managedEnvironments/{ENVIRONMENT}
+
+  configuration:
+    # Ingress configuration
+    ingress:
+      external: true
+      targetPort: 8000
+      transport: http
+      allowInsecure: false
+      traffic:
+        - latestRevision: true
+          weight: 100
+
+    # Registry configuration (Azure Container Registry)
+    registries:
+      - server: {ACR_NAME}.azurecr.io
+        identity: system  # Use system-assigned managed identity
+
+    # Secrets (loaded from environment variables)
+    secrets:
+      - name: azure-openai-endpoint
+        value: ""  # Set via environment or Azure Key Vault
+      - name: azure-search-endpoint
+        value: ""  # Set via environment or Azure Key Vault
+      - name: cosmos-db-endpoint
+        value: ""  # Set via environment or Azure Key Vault
+      - name: cosmos-db-gremlin-endpoint
+        value: ""  # Set via environment or Azure Key Vault
+
+    # Scaling rules
+    activeRevisionsMode: single
+
+  template:
+    # Container configuration
+    containers:
+      - name: api
+        image: {ACR_NAME}.azurecr.io/infra-rag-api:{IMAGE_TAG}
+
+        # Resource limits
+        resources:
+          cpu: 1.0
+          memory: 2Gi
+
+        # Environment variables
+        env:
+          - name: AZURE_OPENAI_ENDPOINT
+            secretRef: azure-openai-endpoint
+          - name: AZURE_SEARCH_ENDPOINT
+            secretRef: azure-search-endpoint
+          - name: COSMOS_DB_ENDPOINT
+            secretRef: cosmos-db-endpoint
+          - name: COSMOS_DB_GREMLIN_ENDPOINT
+            secretRef: cosmos-db-gremlin-endpoint
+
+          # API configuration
+          - name: AZURE_REGION
+            value: canadaeast
+          - name: API_VERSION
+            value: "1.0.0"
+
+          # OpenAI configuration
+          - name: AZURE_OPENAI_API_VERSION
+            value: "2024-02-01"
+          - name: AZURE_OPENAI_EMBEDDING_DEPLOYMENT
+            value: text-embedding-3-large
+          - name: AZURE_OPENAI_CHAT_DEPLOYMENT
+            value: gpt-4
+
+          # Search configuration
+          - name: AZURE_SEARCH_INDEX_NAME
+            value: infra-rag-index
+
+          # Cosmos DB configuration
+          - name: COSMOS_DB_DATABASE
+            value: infra-rag
+          - name: COSMOS_DB_CONTAINER
+            value: documents
+          - name: COSMOS_DB_GREMLIN_DATABASE
+            value: graph
+
+          # Rate limiting
+          - name: RATE_LIMIT_PER_MINUTE
+            value: "60"
+          - name: RATE_LIMIT_PER_HOUR
+            value: "1000"
+
+          # CORS
+          - name: CORS_ORIGINS
+            value: "*"  # Restrict in production
+
+        # Probes
+        probes:
+          - type: liveness
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            failureThreshold: 3
+
+          - type: readiness
+            httpGet:
+              path: /ready
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            failureThreshold: 3
+
+    # Scaling configuration
+    scale:
+      minReplicas: 1
+      maxReplicas: 10
+      rules:
+        # Scale based on HTTP traffic
+        - name: http-scaling
+          http:
+            metadata:
+              concurrentRequests: "100"
+
+        # Scale based on CPU
+        - name: cpu-scaling
+          custom:
+            type: cpu
+            metadata:
+              type: Utilization
+              value: "75"
+
+  # Managed Identity
+  identity:
+    type: SystemAssigned
+
+tags:
+  environment: production
+  project: infra-rag
+  component: api

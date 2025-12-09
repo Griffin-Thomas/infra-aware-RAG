@@ -9,7 +9,7 @@
 | Phase 0: Project Setup      | ✅ Complete  | 9/9   |
 | Phase 1: Data Ingestion     | In Progress | 62/71 |
 | Phase 2: Indexing & Search  | In Progress | 46/49 |
-| Phase 3: API & Tools        | Not Started | 0/61  |
+| Phase 3: API & Tools        | In Progress | 18/61 |
 | Phase 4: LLM & UI           | Not Started | 0/77  |
 
 ---
@@ -255,41 +255,41 @@
 > **Milestone 3.2**: Full API surface
 > **Milestone 3.3**: LLM tools
 
-### 3.1 API Framework Setup
+### 3.1 API Framework Setup ✅
 > Context: `docs/03-api-and-tools.md` → "FastAPI Implementation" section
 
-- [ ] Create `src/api/__init__.py`
-- [ ] Create `src/api/main.py` with FastAPI app, lifespan handler, middleware
-- [ ] Create `src/api/dependencies.py` for shared dependencies (get_search_engine, etc.)
-- [ ] Add health check endpoint (`/health`)
-- [ ] Add readiness check endpoint (`/ready`)
-- [ ] Configure CORS middleware
-- [ ] Configure OpenAPI/Swagger documentation
-- [ ] Create Dockerfile for API
-- [ ] Create Azure Container Apps deployment configuration
+- [x] Create `src/api/__init__.py`
+- [x] Create `src/api/main.py` with FastAPI app, lifespan handler, middleware
+- [x] Create `src/api/dependencies.py` for shared dependencies (get_search_engine, etc.)
+- [x] Add health check endpoint (`/health`)
+- [x] Add readiness check endpoint (`/ready`)
+- [x] Configure CORS middleware
+- [x] Configure OpenAPI/Swagger documentation
+- [x] Create Dockerfile for API
+- [x] Create Azure Container Apps deployment configuration
 
 ### 3.2 Authentication & Authorization
 > Context: `docs/03-api-and-tools.md` → "Authentication Middleware" section
 > Code example: Search for `class AuthMiddleware`
 
-- [ ] Implement `AuthMiddleware` in `src/api/middleware/auth.py`
-- [ ] Add JWT token validation against Azure AD
-- [ ] Implement JWKS fetching and caching
-- [ ] Add user info extraction to request state
+- [x] Implement `AuthMiddleware` in `src/api/middleware/auth.py`
+- [x] Add JWT token validation against Azure AD
+- [x] Implement JWKS fetching and caching
+- [x] Add user info extraction to request state
 - [ ] Implement RBAC based on AAD groups (future)
 - [ ] Add subscription-level authorization (future)
 - [ ] Create service principal for API
 - [ ] Set up Managed Identity for Azure resources
 
-### 3.3 Rate Limiting & Logging
+### 3.3 Rate Limiting & Logging ✅
 > Context: `docs/03-api-and-tools.md` → "Rate Limiting" section
 > Code example: Search for `class RateLimitMiddleware`
 
-- [ ] Implement `RateLimitMiddleware` in `src/api/middleware/rate_limit.py`
-- [ ] Implement `LoggingMiddleware` in `src/api/middleware/logging.py`
-- [ ] Integrate with Application Insights
-- [ ] Add usage tracking per user
-- [ ] Create monitoring dashboards
+- [x] Implement `RateLimitMiddleware` in `src/api/middleware/rate_limit.py`
+- [x] Implement `LoggingMiddleware` in `src/api/middleware/logging.py`
+- [x] Integrate with Application Insights
+- [x] Add usage tracking per user
+- [x] Create monitoring dashboards
 
 ### 3.4 Search Router
 > Context: `docs/03-api-and-tools.md` → "Search Router" section

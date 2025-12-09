@@ -37,3 +37,8 @@ python-dateutil>=2.8.2
 python-dotenv>=1.0.1
 PyYAML>=6.0.1
 tenacity>=8.2.3
+
+# Monitoring & Telemetry
+opencensus-ext-azure>=1.1.9
+opencensus-ext-requests>=0.12.1
+opencensus-ext-httpx>=0.1.0

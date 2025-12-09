@@ -76,12 +76,18 @@ All Azure services deployed in **Canada East** or **Canada Central**:
 │   │   ├── models.py          # Search result models
 │   │   └── hybrid_search.py   # Vector + keyword + graph search
 │   │
-│   ├── api/            # Phase 3: FastAPI application (0/61 tasks)
-│   │   ├── middleware/        # Auth, rate limiting, logging
-│   │   ├── models/            # Request/response models
-│   │   ├── routers/           # API endpoints
-│   │   ├── services/          # Business logic
-│   │   └── tools/             # LLM tool definitions
+│   ├── api/            # Phase 3: FastAPI application (18/61 tasks)
+│   │   ├── main.py            # FastAPI app with lifespan management
+│   │   ├── dependencies.py    # Dependency injection & settings
+│   │   ├── middleware/        # Auth, rate limiting, logging, monitoring
+│   │   │   ├── auth.py        # Azure AD JWT authentication
+│   │   │   ├── rate_limit.py  # Token bucket rate limiting
+│   │   │   ├── logging.py     # Structured logging
+│   │   │   └── app_insights.py # Application Insights integration
+│   │   ├── models/            # Request/response models (pending)
+│   │   ├── routers/           # API endpoints (pending)
+│   │   ├── services/          # Business logic (pending)
+│   │   └── tools/             # LLM tool definitions (pending)
 │   │
 │   ├── orchestration/  # Phase 4: LLM integration (0/77 tasks)
 │   │   └── (not yet implemented)
@@ -90,14 +96,26 @@ All Azure services deployed in **Canada East** or **Canada Central**:
 │
 ├── frontend/           # React + TypeScript chat UI (not yet implemented)
 │
-├── tests/              # Test suite (127+ tests passing)
-│   ├── unit/           # Unit tests (15+ files)
+├── tests/              # Test suite (173+ tests passing)
+│   ├── unit/           # Unit tests (18+ files)
 │   ├── integration/    # Integration tests (3+ files)
 │   └── fixtures/       # Test data & fixtures
 │       └── terraform/  # Sample .tf files
 │
 ├── config/             # Configuration files
-└── infrastructure/     # Terraform for deploying this project
+│
+├── infrastructure/     # Deployment & monitoring
+│   ├── containerapp/   # Azure Container Apps deployment
+│   │   ├── containerapp.yaml  # Container App configuration
+│   │   ├── deploy.sh          # Automated deployment script
+│   │   └── README.md          # Deployment documentation
+│   └── monitoring/     # Monitoring & alerting
+│       ├── dashboard.json     # Azure Dashboard template
+│       ├── alerts.json        # Alert rules & action groups
+│       └── README.md          # Monitoring documentation
+│
+├── Dockerfile          # Container image for API
+└── .dockerignore       # Docker build exclusions
 ```
 
 ## Getting Started

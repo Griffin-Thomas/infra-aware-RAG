@@ -1,0 +1,295 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "dashboardName": {
+      "type": "string",
+      "defaultValue": "Infra-RAG-API-Dashboard",
+      "metadata": {
+        "description": "Name of the Azure Dashboard"
+      }
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "canadaeast",
+      "metadata": {
+        "description": "Location for the dashboard"
+      }
+    },
+    "applicationInsightsName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the Application Insights resource"
+      }
+    },
+    "containerAppName": {
+      "type": "string",
+      "defaultValue": "infra-rag-api",
+      "metadata": {
+        "description": "Name of the Container App"
+      }
+    }
+  },
+  "variables": {
+    "dashboardId": "[concat(resourceGroup().id, '/providers/Microsoft.Portal/dashboards/', parameters('dashboardName'))]",
+    "appInsightsId": "[concat(resourceGroup().id, '/providers/Microsoft.Insights/components/', parameters('applicationInsightsName'))]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Portal/dashboards",
+      "apiVersion": "2020-09-01-preview",
+      "name": "[parameters('dashboardName')]",
+      "location": "[parameters('location')]",
+      "tags": {
+        "hidden-title": "Infra-RAG API Monitoring"
+      },
+      "properties": {
+        "lenses": [
+          {
+            "order": 0,
+            "parts": [
+              {
+                "position": {
+                  "x": 0,
+                  "y": 0,
+                  "colSpan": 6,
+                  "rowSpan": 4
+                },
+                "metadata": {
+                  "inputs": [
+                    {
+                      "name": "ComponentId",
+                      "value": "[variables('appInsightsId')]"
+                    },
+                    {
+                      "name": "MetricId",
+                      "value": "availabilityResults/availabilityPercentage"
+                    },
+                    {
+                      "name": "TimeRange",
+                      "value": "PT1H"
+                    }
+                  ],
+                  "type": "Extension/AppInsightsExtension/PartType/MetricsChartPart",
+                  "settings": {
+                    "title": "API Availability",
+                    "subtitle": "Last hour"
+                  }
+                }
+              },
+              {
+                "position": {
+                  "x": 6,
+                  "y": 0,
+                  "colSpan": 6,
+                  "rowSpan": 4
+                },
+                "metadata": {
+                  "inputs": [
+                    {
+                      "name": "ComponentId",
+                      "value": "[variables('appInsightsId')]"
+                    },
+                    {
+                      "name": "MetricId",
+                      "value": "requests/count"
+                    },
+                    {
+                      "name": "TimeRange",
+                      "value": "PT1H"
+                    }
+                  ],
+                  "type": "Extension/AppInsightsExtension/PartType/MetricsChartPart",
+                  "settings": {
+                    "title": "Request Rate",
+                    "subtitle": "Requests per minute"
+                  }
+                }
+              },
+              {
+                "position": {
+                  "x": 0,
+                  "y": 4,
+                  "colSpan": 6,
+                  "rowSpan": 4
+                },
+                "metadata": {
+                  "inputs": [
+                    {
+                      "name": "ComponentId",
+                      "value": "[variables('appInsightsId')]"
+                    },
+                    {
+                      "name": "MetricId",
+                      "value": "requests/duration"
+                    },
+                    {
+                      "name": "TimeRange",
+                      "value": "PT1H"
+                    }
+                  ],
+                  "type": "Extension/AppInsightsExtension/PartType/MetricsChartPart",
+                  "settings": {
+                    "title": "Response Time",
+                    "subtitle": "Average response time (ms)"
+                  }
+                }
+              },
+              {
+                "position": {
+                  "x": 6,
+                  "y": 4,
+                  "colSpan": 6,
+                  "rowSpan": 4
+                },
+                "metadata": {
+                  "inputs": [
+                    {
+                      "name": "ComponentId",
+                      "value": "[variables('appInsightsId')]"
+                    },
+                    {
+                      "name": "MetricId",
+                      "value": "requests/failed"
+                    },
+                    {
+                      "name": "TimeRange",
+                      "value": "PT1H"
+                    }
+                  ],
+                  "type": "Extension/AppInsightsExtension/PartType/MetricsChartPart",
+                  "settings": {
+                    "title": "Failed Requests",
+                    "subtitle": "HTTP 4xx and 5xx errors"
+                  }
+                }
+              },
+              {
+                "position": {
+                  "x": 0,
+                  "y": 8,
+                  "colSpan": 12,
+                  "rowSpan": 4
+                },
+                "metadata": {
+                  "inputs": [
+                    {
+                      "name": "ComponentId",
+                      "value": "[variables('appInsightsId')]"
+                    },
+                    {
+                      "name": "Query",
+                      "value": "requests\n| where timestamp > ago(1h)\n| summarize RequestCount=count(), AvgDuration=avg(duration), FailureCount=countif(success == false) by name\n| order by RequestCount desc"
+                    },
+                    {
+                      "name": "TimeRange",
+                      "value": "PT1H"
+                    }
+                  ],
+                  "type": "Extension/AppInsightsExtension/PartType/AnalyticsGridPart",
+                  "settings": {
+                    "title": "Top API Endpoints",
+                    "subtitle": "By request count"
+                  }
+                }
+              },
+              {
+                "position": {
+                  "x": 0,
+                  "y": 12,
+                  "colSpan": 6,
+                  "rowSpan": 4
+                },
+                "metadata": {
+                  "inputs": [
+                    {
+                      "name": "ComponentId",
+                      "value": "[variables('appInsightsId')]"
+                    },
+                    {
+                      "name": "Query",
+                      "value": "customMetrics\n| where name == 'api_request_count'\n| extend user_id = tostring(customDimensions.user_id)\n| where isnotempty(user_id)\n| summarize RequestCount=sum(value) by user_id\n| order by RequestCount desc\n| take 10"
+                    },
+                    {
+                      "name": "TimeRange",
+                      "value": "P1D"
+                    }
+                  ],
+                  "type": "Extension/AppInsightsExtension/PartType/AnalyticsGridPart",
+                  "settings": {
+                    "title": "Top Users by Request Count",
+                    "subtitle": "Last 24 hours"
+                  }
+                }
+              },
+              {
+                "position": {
+                  "x": 6,
+                  "y": 12,
+                  "colSpan": 6,
+                  "rowSpan": 4
+                },
+                "metadata": {
+                  "inputs": [
+                    {
+                      "name": "ComponentId",
+                      "value": "[variables('appInsightsId')]"
+                    },
+                    {
+                      "name": "Query",
+                      "value": "exceptions\n| where timestamp > ago(1h)\n| summarize ExceptionCount=count() by type, outerMessage\n| order by ExceptionCount desc"
+                    },
+                    {
+                      "name": "TimeRange",
+                      "value": "PT1H"
+                    }
+                  ],
+                  "type": "Extension/AppInsightsExtension/PartType/AnalyticsGridPart",
+                  "settings": {
+                    "title": "Exceptions",
+                    "subtitle": "Last hour"
+                  }
+                }
+              },
+              {
+                "position": {
+                  "x": 0,
+                  "y": 16,
+                  "colSpan": 12,
+                  "rowSpan": 4
+                },
+                "metadata": {
+                  "inputs": [
+                    {
+                      "name": "ComponentId",
+                      "value": "[variables('appInsightsId')]"
+                    },
+                    {
+                      "name": "Query",
+                      "value": "requests\n| where timestamp > ago(24h)\n| summarize RequestCount=count() by bin(timestamp, 1h), resultCode\n| render timechart"
+                    },
+                    {
+                      "name": "TimeRange",
+                      "value": "P1D"
+                    }
+                  ],
+                  "type": "Extension/AppInsightsExtension/PartType/AnalyticsLineChartPart",
+                  "settings": {
+                    "title": "Request Timeline by Status Code",
+                    "subtitle": "Last 24 hours"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "outputs": {
+    "dashboardId": {
+      "type": "string",
+      "value": "[variables('dashboardId')]"
+    }
+  }
+}
