@@ -9,7 +9,7 @@
 | Phase 0: Project Setup      | ✅ Complete  | 9/9   |
 | Phase 1: Data Ingestion     | In Progress | 62/71 |
 | Phase 2: Indexing & Search  | In Progress | 46/49 |
-| Phase 3: API & Tools        | In Progress | 18/61 |
+| Phase 3: API & Tools        | In Progress | 57/61 |
 | Phase 4: LLM & UI           | Not Started | 0/77  |
 
 ---
@@ -291,74 +291,74 @@
 - [x] Add usage tracking per user
 - [x] Create monitoring dashboards
 
-### 3.4 Search Router
+### 3.4 Search Router ✅
 > Context: `docs/03-api-and-tools.md` → "Search Router" section
 > Code example: Search for `router = APIRouter()` in search section
 
-- [ ] Create `src/api/routers/__init__.py`
-- [ ] Implement `SearchRequest` and `SearchResponse` models in `src/api/models/`
-- [ ] Implement `POST /search` endpoint in `src/api/routers/search.py`
-- [ ] Implement `POST /search/expand` endpoint for graph-expanded search
-- [ ] Add filtering and faceting support
-- [ ] Add request validation
-- [ ] Create unit tests in `tests/unit/test_search_router.py`
+- [x] Create `src/api/routers/__init__.py`
+- [x] Implement `SearchRequest` and `SearchResponse` models in `src/api/models/`
+- [x] Implement `POST /search` endpoint in `src/api/routers/search.py`
+- [x] Implement `POST /search/expand` endpoint for graph-expanded search
+- [x] Add filtering and faceting support
+- [x] Add request validation
+- [x] Create unit tests in `tests/unit/test_search_router.py`
 
-### 3.5 Resources Router
+### 3.5 Resources Router ✅
 > Context: `docs/03-api-and-tools.md` → "Resources Router" section
 > Code example: Search for routes starting with `/resources`
 
-- [ ] Implement `AzureResource` response model
-- [ ] Implement `GET /resources/{resource_id}` in `src/api/routers/resources.py`
-- [ ] Implement `GET /resources/{resource_id}/terraform`
-- [ ] Implement `GET /resources/{resource_id}/dependencies`
-- [ ] Implement `POST /resource-graph/query` for raw KQL queries
-- [ ] Add query validation/sanitization for Resource Graph
-- [ ] Create unit tests in `tests/unit/test_resources_router.py`
+- [x] Implement `AzureResource` response model
+- [x] Implement `GET /resources/{resource_id}` in `src/api/routers/resources.py`
+- [x] Implement `GET /resources/{resource_id}/terraform`
+- [x] Implement `GET /resources/{resource_id}/dependencies`
+- [x] Implement `POST /resource-graph/query` for raw KQL queries
+- [x] Add query validation/sanitization for Resource Graph
+- [x] Create unit tests in `tests/unit/test_resources_router.py`
 
-### 3.6 Terraform Router
+### 3.6 Terraform Router ✅
 > Context: `docs/03-api-and-tools.md` → "Terraform Router" section
 > Code example: Search for routes starting with `/terraform`
 
-- [ ] Implement response models (`TerraformResource`, `TerraformPlan`, `PlanAnalysis`)
-- [ ] Implement `GET /terraform/resources` in `src/api/routers/terraform.py`
-- [ ] Implement `GET /terraform/resources/{address}`
-- [ ] Implement `GET /terraform/plans`
-- [ ] Implement `GET /terraform/plans/{plan_id}`
-- [ ] Implement `POST /terraform/plans/{plan_id}/analyze`
-- [ ] Implement `POST /terraform/plans/parse` for uploading plan JSON
-- [ ] Create unit tests in `tests/unit/test_terraform_router.py`
+- [x] Implement response models (`TerraformResource`, `TerraformPlan`, `PlanAnalysis`)
+- [x] Implement `GET /terraform/resources` in `src/api/routers/terraform.py`
+- [x] Implement `GET /terraform/resources/{address}`
+- [x] Implement `GET /terraform/plans`
+- [x] Implement `GET /terraform/plans/{plan_id}`
+- [x] Implement `POST /terraform/plans/{plan_id}/analyze`
+- [x] Implement `POST /terraform/plans/parse` for uploading plan JSON
+- [x] Create unit tests in `tests/unit/test_terraform_router.py`
 
-### 3.7 Git Router
+### 3.7 Git Router ✅
 > Context: `docs/03-api-and-tools.md` → "Git Router" section
 > Code example: Search for routes starting with `/git`
 
-- [ ] Implement response models (`GitCommit`, `FileChange`)
-- [ ] Implement `GET /git/commits` in `src/api/routers/git.py`
-- [ ] Implement `GET /git/commits/{sha}`
-- [ ] Implement `GET /git/commits/{sha}/diff`
-- [ ] Add filtering by date range, author, terraform_only
-- [ ] Create unit tests in `tests/unit/test_git_router.py`
+- [x] Implement response models (`GitCommit`, `FileChange`)
+- [x] Implement `GET /git/commits` in `src/api/routers/git.py`
+- [x] Implement `GET /git/commits/{sha}`
+- [x] Implement `GET /git/commits/{sha}/diff`
+- [x] Add filtering by date range, author, terraform_only
+- [x] Create unit tests in `tests/unit/test_git_router.py`
 
-### 3.8 LLM Tool Definitions
+### 3.8 LLM Tool Definitions ✅
 > Context: `docs/03-api-and-tools.md` → "LLM Tool Definitions" section
 > Code example: Search for `TOOL_DEFINITIONS`
 
-- [ ] Create `src/api/tools/__init__.py`
-- [ ] Define all tool schemas in `src/api/tools/definitions.py`
-- [ ] Implement `get_tool_definitions()` function
-- [ ] Implement `get_tool_by_name()` function
-- [ ] Verify all tools match API endpoints
+- [x] Create `src/api/tools/__init__.py`
+- [x] Define all tool schemas in `src/api/tools/definitions.py`
+- [x] Implement `get_tool_definitions()` function
+- [x] Implement `get_tool_by_name()` function
+- [x] Verify all tools match API endpoints
 
-### 3.9 Tools Router
+### 3.9 Tools Router ✅
 > Context: `docs/03-api-and-tools.md` → "Tool Router" section
 > Code example: Search for `POST /tools/execute`
 
-- [ ] Implement `GET /tools` endpoint in `src/api/routers/tools.py`
-- [ ] Implement `POST /tools/execute` endpoint
-- [ ] Implement `_execute_tool()` dispatcher function
-- [ ] Add tool execution logging
-- [ ] Create unit tests for tool execution in `tests/unit/test_tools_router.py`
-- [ ] Create integration tests for all tools
+- [x] Implement `GET /tools` endpoint in `src/api/routers/tools.py`
+- [x] Implement `POST /tools/execute` endpoint
+- [x] Implement `_execute_tool()` dispatcher function
+- [x] Add tool execution logging
+- [x] Create unit tests for tool execution in `tests/unit/test_tools_router.py`
+- [x] Create integration tests for all tools
 
 ---
 

@@ -16,6 +16,9 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 from ..indexing.graph_builder import GraphBuilder
 from ..ingestion.connectors.azure_resource_graph import AzureResourceGraphConnector
 from ..search.hybrid_search import HybridSearchEngine
+from .services.resource_service import ResourceService
+from .services.terraform_service import TerraformService
+from .services.git_service import GitService
 
 
 class Settings(BaseSettings):
@@ -161,6 +164,31 @@ async def init_services(settings: Settings) -> None:
     )
     _services["graph_builder"] = graph_builder
 
+    # Initialize resource service
+    resource_service = ResourceService(
+        cosmos_client=cosmos_client,
+        database_name=settings.cosmos_db_database,
+        container_name=settings.cosmos_db_container,
+        arg_connector=arg_connector,
+    )
+    _services["resource_service"] = resource_service
+
+    # Initialize Terraform service
+    terraform_service = TerraformService(
+        cosmos_client=cosmos_client,
+        database_name=settings.cosmos_db_database,
+        container_name=settings.cosmos_db_container,
+    )
+    _services["terraform_service"] = terraform_service
+
+    # Initialize Git service
+    git_service = GitService(
+        cosmos_client=cosmos_client,
+        database_name=settings.cosmos_db_database,
+        container_name=settings.cosmos_db_container,
+    )
+    _services["git_service"] = git_service
+
     # Initialize Application Insights (if configured)
     if settings.applicationinsights_connection_string:
         from .middleware.app_insights import init_app_insights
@@ -209,9 +237,33 @@ def get_arg_connector() -> AzureResourceGraphConnector:
     return _services["arg_connector"]
 
 
+def get_resource_service() -> ResourceService:
+    """Get the resource service instance."""
+    if "resource_service" not in _services:
+        raise RuntimeError("Services not initialized. Call init_services() first.")
+    return _services["resource_service"]
+
+
+def get_terraform_service() -> TerraformService:
+    """Get the Terraform service instance."""
+    if "terraform_service" not in _services:
+        raise RuntimeError("Services not initialized. Call init_services() first.")
+    return _services["terraform_service"]
+
+
+def get_git_service() -> GitService:
+    """Get the Git service instance."""
+    if "git_service" not in _services:
+        raise RuntimeError("Services not initialized. Call init_services() first.")
+    return _services["git_service"]
+
+
 # Type aliases for dependency injection
 SearchEngineDep = Annotated[HybridSearchEngine, Depends(get_search_engine)]
 GraphBuilderDep = Annotated[GraphBuilder, Depends(get_graph_builder)]
 CosmosClientDep = Annotated[CosmosClient, Depends(get_cosmos_client)]
 ARGConnectorDep = Annotated[AzureResourceGraphConnector, Depends(get_arg_connector)]
+ResourceServiceDep = Annotated[ResourceService, Depends(get_resource_service)]
+TerraformServiceDep = Annotated[TerraformService, Depends(get_terraform_service)]
+GitServiceDep = Annotated[GitService, Depends(get_git_service)]
 SettingsDep = Annotated[Settings, Depends(get_settings)]

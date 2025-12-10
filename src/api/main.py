@@ -133,10 +133,16 @@ async def readiness_check():
     }
 
 
-# TODO: Register routers as they're implemented
-# from .routers import search, resources, terraform, git, tools
-# app.include_router(search.router, prefix="/api/v1", tags=["search"])
-# app.include_router(resources.router, prefix="/api/v1", tags=["resources"])
-# app.include_router(terraform.router, prefix="/api/v1", tags=["terraform"])
+# Register API routers
+from .routers import search, resources, terraform, git, tools
+
+app.include_router(search.router, prefix="/api/v1")
+app.include_router(resources.router, prefix="/api/v1")
+app.include_router(terraform.router, prefix="/api/v1")
+app.include_router(git.router, prefix="/api/v1")
+app.include_router(tools.router, prefix="/api/v1")
+
+# TODO: Register additional routers as they're implemented
+# from .routers import git, tools
 # app.include_router(git.router, prefix="/api/v1", tags=["git"])
 # app.include_router(tools.router, prefix="/api/v1", tags=["tools"])

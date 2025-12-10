@@ -76,7 +76,7 @@ All Azure services deployed in **Canada East** or **Canada Central**:
 │   │   ├── models.py          # Search result models
 │   │   └── hybrid_search.py   # Vector + keyword + graph search
 │   │
-│   ├── api/            # Phase 3: FastAPI application (18/61 tasks)
+│   ├── api/            # Phase 3: FastAPI application (56/61 tasks - 92%)
 │   │   ├── main.py            # FastAPI app with lifespan management
 │   │   ├── dependencies.py    # Dependency injection & settings
 │   │   ├── middleware/        # Auth, rate limiting, logging, monitoring
@@ -84,10 +84,23 @@ All Azure services deployed in **Canada East** or **Canada Central**:
 │   │   │   ├── rate_limit.py  # Token bucket rate limiting
 │   │   │   ├── logging.py     # Structured logging
 │   │   │   └── app_insights.py # Application Insights integration
-│   │   ├── models/            # Request/response models (pending)
-│   │   ├── routers/           # API endpoints (pending)
-│   │   ├── services/          # Business logic (pending)
-│   │   └── tools/             # LLM tool definitions (pending)
+│   │   ├── models/            # Request/response Pydantic models
+│   │   │   ├── search.py      # Search request/response models
+│   │   │   ├── resources.py   # Azure resource models
+│   │   │   ├── terraform.py   # Terraform resource & plan models
+│   │   │   └── git.py         # Git commit & change models
+│   │   ├── routers/           # API endpoint routers
+│   │   │   ├── search.py      # Search endpoints
+│   │   │   ├── resources.py   # Azure resource endpoints
+│   │   │   ├── terraform.py   # Terraform endpoints
+│   │   │   ├── git.py         # Git history endpoints
+│   │   │   └── tools.py       # LLM tool execution endpoints
+│   │   ├── services/          # Business logic layer
+│   │   │   ├── resource_service.py   # Azure resource operations
+│   │   │   ├── terraform_service.py  # Terraform operations
+│   │   │   └── git_service.py        # Git operations
+│   │   └── tools/             # LLM function calling
+│   │       └── definitions.py # 13 tool definitions for LLM
 │   │
 │   ├── orchestration/  # Phase 4: LLM integration (0/77 tasks)
 │   │   └── (not yet implemented)
@@ -96,9 +109,9 @@ All Azure services deployed in **Canada East** or **Canada Central**:
 │
 ├── frontend/           # React + TypeScript chat UI (not yet implemented)
 │
-├── tests/              # Test suite (173+ tests passing)
-│   ├── unit/           # Unit tests (18+ files)
-│   ├── integration/    # Integration tests (3+ files)
+├── tests/              # Test suite (235+ tests passing)
+│   ├── unit/           # Unit tests (23+ files)
+│   ├── integration/    # Integration tests (4+ files)
 │   └── fixtures/       # Test data & fixtures
 │       └── terraform/  # Sample .tf files
 │
