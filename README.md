@@ -139,4 +139,4 @@ See [docs/PLAN.md](./docs/PLAN.md) for the full architecture documentation.
 
 ## License
 
-Apache 2.0 License - see [LICENSE](./LICENSE) for details.
+MIT License - see [LICENSE](./LICENSE) for details.
