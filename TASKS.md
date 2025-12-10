@@ -172,7 +172,7 @@
 - [ ] Set up Azure AI Search resource (Basic tier for MVP) (in Canada East or Canada Central)
 - [ ] Set up Cosmos DB Gremlin API database for graph (in Canada East or Canada Central)
 
-### 2.2 Chunking Pipeline
+### 2.2 Chunking Pipeline ✅
 > Context: `docs/02-indexing-and-search.md` → "Chunking Strategy" section
 > Code examples: Search for `class AzureResourceChunker`, `class TerraformResourceChunker`
 
@@ -185,7 +185,7 @@
 - [x] Add type-specific property extraction for Azure resources
 - [x] Create unit tests for all chunkers in `tests/unit/test_chunkers.py`
 
-### 2.3 Embedding Pipeline
+### 2.3 Embedding Pipeline ✅
 > Context: `docs/02-indexing-and-search.md` → "Embedding Pipeline" section
 > Code example: Search for `class EmbeddingPipeline`
 
@@ -198,7 +198,7 @@
 - [x] Add cost tracking/logging
 - [x] Create unit tests in `tests/unit/test_embeddings.py`
 
-### 2.4 Azure AI Search Index
+### 2.4 Azure AI Search Index ✅
 > Context: `docs/02-indexing-and-search.md` → "Azure AI Search Index" section
 > Code example: Search for `def create_infra_index()`
 
@@ -210,7 +210,7 @@
 - [x] Add `delete_documents()` method
 - [x] Create integration tests in `tests/integration/test_search_index.py`
 
-### 2.5 Graph Database
+### 2.5 Graph Database ✅
 > Context: `docs/02-indexing-and-search.md` → "Graph Database Schema" section
 > Code example: Search for `class GraphBuilder`
 
@@ -224,7 +224,7 @@
 - [x] Implement `find_terraform_for_resource()`
 - [x] Create integration tests in `tests/integration/test_graph_builder.py`
 
-### 2.6 Hybrid Search Engine
+### 2.6 Hybrid Search Engine ✅
 > Context: `docs/02-indexing-and-search.md` → "Hybrid Search Implementation" section
 > Code example: Search for `class HybridSearchEngine`
 
@@ -238,7 +238,7 @@
 - [x] Add facet support
 - [x] Create unit tests in `tests/unit/test_hybrid_search.py`
 
-### 2.7 Indexing Pipeline Integration
+### 2.7 Indexing Pipeline Integration ✅
 - [x] Create indexing orchestrator that chains chunking → embedding → indexing
 - [x] Integrate with Phase 1 ingestion pipeline (trigger on new documents)
 - [x] Add incremental indexing support (only new/changed documents)
