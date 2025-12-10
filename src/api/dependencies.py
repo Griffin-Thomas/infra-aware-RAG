@@ -57,10 +57,16 @@ class Settings(BaseSettings):
         default="documents", description="Cosmos DB container name"
     )
     cosmos_db_gremlin_endpoint: str = Field(
-        ..., description="Cosmos DB Gremlin endpoint URL"
+        ..., description="Cosmos DB Gremlin endpoint URL (documents.azure.com format)"
     )
     cosmos_db_gremlin_database: str = Field(
         default="graph", description="Cosmos DB Gremlin database name"
+    )
+    cosmos_db_gremlin_graph: str = Field(
+        default="infrastructure", description="Cosmos DB Gremlin graph/collection name"
+    )
+    cosmos_db_gremlin_key: str = Field(
+        ..., description="Cosmos DB Gremlin account key for authentication"
     )
 
     # Service Bus settings (for ingestion)
@@ -158,9 +164,10 @@ async def init_services(settings: Settings) -> None:
 
     # Initialize graph builder
     graph_builder = GraphBuilder(
-        gremlin_endpoint=settings.cosmos_db_gremlin_endpoint,
-        database_name=settings.cosmos_db_gremlin_database,
-        credential=credential,
+        endpoint=settings.cosmos_db_gremlin_endpoint,
+        database=settings.cosmos_db_gremlin_database,
+        graph=settings.cosmos_db_gremlin_graph,
+        key=settings.cosmos_db_gremlin_key,
     )
     _services["graph_builder"] = graph_builder
 

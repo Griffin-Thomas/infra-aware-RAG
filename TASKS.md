@@ -7,7 +7,7 @@
 | Phase | Status | Progress |
 |-------|--------|----------|
 | Phase 0: Project Setup      | ✅ Complete  | 9/9   |
-| Phase 1: Data Ingestion     | In Progress | 62/71 |
+| Phase 1: Data Ingestion     | In Progress | 66/75 |
 | Phase 2: Indexing & Search  | In Progress | 46/49 |
 | Phase 3: API & Tools        | In Progress | 57/61 |
 | Phase 4: LLM & UI           | Not Started | 0/77  |

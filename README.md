@@ -21,7 +21,7 @@ Ask natural language questions like:
 All Azure services deployed in **Canada East** or **Canada Central**:
 
 - **Backend**: Python 3.11+, FastAPI
-- **LLM**: Azure OpenAI (GPT-4o) - Canada East only
+- **LLM**: Azure OpenAI (GPT-4.1) - Canada East only
 - **Search**: Azure AI Search (vector + keyword)
 - **Graph**: Cosmos DB Gremlin API
 - **Frontend**: React + TypeScript

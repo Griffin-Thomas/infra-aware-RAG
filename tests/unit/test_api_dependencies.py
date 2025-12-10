@@ -28,7 +28,8 @@ class TestSettings:
                 "AZURE_OPENAI_ENDPOINT": "https://test.openai.azure.com",
                 "AZURE_SEARCH_ENDPOINT": "https://test.search.windows.net",
                 "COSMOS_DB_ENDPOINT": "https://test.documents.azure.com",
-                "COSMOS_DB_GREMLIN_ENDPOINT": "wss://test.gremlin.cosmos.azure.com",
+                "COSMOS_DB_GREMLIN_ENDPOINT": "https://test.documents.azure.com:443/",
+                "COSMOS_DB_GREMLIN_KEY": "test-gremlin-key",
             },
         ):
             settings = Settings()
@@ -45,7 +46,8 @@ class TestSettings:
                 "AZURE_OPENAI_ENDPOINT": "https://test.openai.azure.com",
                 "AZURE_SEARCH_ENDPOINT": "https://test.search.windows.net",
                 "COSMOS_DB_ENDPOINT": "https://test.documents.azure.com",
-                "COSMOS_DB_GREMLIN_ENDPOINT": "wss://test.gremlin.cosmos.azure.com",
+                "COSMOS_DB_GREMLIN_ENDPOINT": "https://test.documents.azure.com:443/",
+                "COSMOS_DB_GREMLIN_KEY": "test-gremlin-key",
             },
         ):
             settings = Settings()
@@ -54,6 +56,7 @@ class TestSettings:
             assert settings.azure_region == "canadaeast"
             assert settings.azure_search_index_name == "infra-rag-index"
             assert settings.cosmos_db_database == "infra-rag"
+            assert settings.cosmos_db_gremlin_graph == "infrastructure"
             assert settings.api_version == "1.0.0"
             assert settings.rate_limit_per_minute == 60
             assert settings.rate_limit_per_hour == 1000
@@ -66,7 +69,8 @@ class TestSettings:
                 "AZURE_OPENAI_ENDPOINT": "https://test.openai.azure.com",
                 "AZURE_SEARCH_ENDPOINT": "https://test.search.windows.net",
                 "COSMOS_DB_ENDPOINT": "https://test.documents.azure.com",
-                "COSMOS_DB_GREMLIN_ENDPOINT": "wss://test.gremlin.cosmos.azure.com",
+                "COSMOS_DB_GREMLIN_ENDPOINT": "https://test.documents.azure.com:443/",
+                "COSMOS_DB_GREMLIN_KEY": "test-gremlin-key",
             },
         ):
             settings = Settings()
@@ -82,7 +86,8 @@ class TestSettings:
                 "AZURE_OPENAI_ENDPOINT": "https://test.openai.azure.com",
                 "AZURE_SEARCH_ENDPOINT": "https://test.search.windows.net",
                 "COSMOS_DB_ENDPOINT": "https://test.documents.azure.com",
-                "COSMOS_DB_GREMLIN_ENDPOINT": "wss://test.gremlin.cosmos.azure.com",
+                "COSMOS_DB_GREMLIN_ENDPOINT": "https://test.documents.azure.com:443/",
+                "COSMOS_DB_GREMLIN_KEY": "test-gremlin-key",
             },
         ):
             # Clear the cache first
@@ -107,7 +112,8 @@ class TestServiceInitialization:
                 "AZURE_OPENAI_ENDPOINT": "https://test.openai.azure.com",
                 "AZURE_SEARCH_ENDPOINT": "https://test.search.windows.net",
                 "COSMOS_DB_ENDPOINT": "https://test.documents.azure.com",
-                "COSMOS_DB_GREMLIN_ENDPOINT": "wss://test.gremlin.cosmos.azure.com",
+                "COSMOS_DB_GREMLIN_ENDPOINT": "https://test.documents.azure.com:443/",
+                "COSMOS_DB_GREMLIN_KEY": "test-gremlin-key",
             },
         ):
             get_settings.cache_clear()

@@ -76,7 +76,7 @@ The system enables DevOps engineers, SREs, and cloud architects to ask natural l
 | Component | Recommended Technology | Region Requirement | Alternatives |
 |-----------|----------------------|-------------------|--------------|
 | **Runtime** | Python 3.11+ with FastAPI | N/A | Node.js/TypeScript |
-| **LLM** | Azure OpenAI (GPT-4o) | **Canada East** | Anthropic Claude, local models |
+| **LLM** | Azure OpenAI (4.1) | **Canada East** | Anthropic Claude, local models |
 | **Embeddings** | Azure OpenAI text-embedding-3-large | **Canada East** | Cohere, sentence-transformers |
 | **Vector Store** | Azure AI Search | **Canada East or Canada Central** | Pinecone, Weaviate, Qdrant |
 | **Graph Database** | Azure Cosmos DB (Gremlin API) | **Canada East or Canada Central** | Neo4j, Neptune |
@@ -84,7 +84,7 @@ The system enables DevOps engineers, SREs, and cloud architects to ask natural l
 | **Cache** | Azure Redis Cache | **Canada East or Canada Central** | Local Redis |
 | **Queue** | Azure Service Bus | **Canada East or Canada Central** | RabbitMQ, Azure Queue Storage |
 | **Blob Storage** | Azure Blob Storage | **Canada East or Canada Central** | S3-compatible |
-| **Auth** | Azure Entra ID (AAD) | Global (tenant-level) | Auth0, Keycloak |
+| **Auth** | Microsoft Entra ID (AAD) | Global (tenant-level) | Auth0, Keycloak |
 | **CI/CD** | Azure DevOps / GitHub Actions | N/A | GitLab CI |
 | **Infrastructure** | Terraform (dogfooding) | N/A | Bicep, Pulumi |
 | **Container Runtime** | Azure Container Apps | **Canada East or Canada Central** | AKS, Azure Functions |
@@ -248,7 +248,7 @@ class GitCommit:
 
 | Concern | Approach |
 |---------|----------|
-| **User Auth** | Azure Entra ID (AAD) with OAuth2/OIDC |
+| **User Auth** | Microsoft Entra ID (AAD) with OAuth2/OIDC |
 | **Service Auth** | Managed Identity for Azure resources |
 | **RBAC** | Map AAD groups to subscription access |
 | **API Auth** | Bearer tokens (JWT) validated against AAD |
@@ -305,7 +305,7 @@ git_repos:
 
 | Component | Estimated Monthly Cost (MVP) |
 |-----------|------------------------------|
-| Azure OpenAI (GPT-4o) | $200-500 |
+| Azure OpenAI (GPT-4.1) | $200-500 |
 | Azure AI Search (Basic) | $75 |
 | Cosmos DB (Serverless) | $50-100 |
 | Container Apps | $50-100 |
