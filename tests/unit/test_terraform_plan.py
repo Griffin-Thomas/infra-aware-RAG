@@ -37,7 +37,7 @@ class TestTerraformPlanConnector:
         assert len(processed["changes"]) == 5  # No-op excluded, read included
         assert processed["total_add"] == 2  # create + replace
         assert processed["total_change"] == 1  # update
-        assert processed["total_destroy"] == 1  # delete only
+        assert processed["total_destroy"] == 2  # delete + replace (replace counts as destroy+add)
 
     def test_parse_plan_file_not_found(self, connector, tmp_path):
         """Test error when plan file doesn't exist."""
@@ -191,7 +191,7 @@ class TestTerraformPlanConnector:
         assert doc.terraform_version == "1.5.0"
         assert doc.total_add == 2
         assert doc.total_change == 1
-        assert doc.total_destroy == 1
+        assert doc.total_destroy == 2  # delete + replace (replace counts as destroy+add)
         assert len(doc.changes) == 5
         assert "Plan:" in doc.summary_text
 
@@ -200,7 +200,7 @@ class TestTerraformPlanConnector:
         plan_file = fixtures_dir / "plan.json"
         processed = connector.parse_plan_file(plan_file)
 
-        # 1 create, 1 update, 1 delete, 1 replace (counts as +1 add)
+        # 1 create, 1 update, 1 delete, 1 replace (replace counts as both destroy+add)
         assert processed["total_add"] == 2  # create + replace
         assert processed["total_change"] == 1  # update
-        assert processed["total_destroy"] == 1  # delete only
+        assert processed["total_destroy"] == 2  # delete + replace

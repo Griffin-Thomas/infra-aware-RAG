@@ -2,7 +2,7 @@
 
 import logging
 from datetime import datetime
-from azure.cosmos import CosmosClient
+from azure.cosmos.aio import CosmosClient
 from azure.cosmos.exceptions import CosmosHttpResponseError
 
 from src.api.models.git import FileChange, GitCommit
@@ -17,21 +17,18 @@ class GitService:
         """Initialize Git service.
 
         Args:
-            cosmos_client: Azure Cosmos DB client
+            cosmos_client: Azure Cosmos DB async client
             database_name: Database name
             container_name: Container name for documents
         """
         self.cosmos_client = cosmos_client
         self.database_name = database_name
         self.container_name = container_name
-        self._container = None
 
     def _get_container(self):
-        """Get Cosmos DB container (lazy initialization)."""
-        if self._container is None:
-            database = self.cosmos_client.get_database_client(self.database_name)
-            self._container = database.get_container_client(self.container_name)
-        return self._container
+        """Get Cosmos DB container."""
+        database = self.cosmos_client.get_database_client(self.database_name)
+        return database.get_container_client(self.container_name)
 
     async def list_commits(
         self,
@@ -83,15 +80,18 @@ class GitService:
 
             query += " ORDER BY c.commit_date DESC"
 
-            # Execute query
-            items = list(
-                container.query_items(
-                    query=query,
-                    parameters=params,
-                    max_item_count=limit,
-                    enable_cross_partition_query=True,
-                )
-            )
+            # Execute query with async iteration
+            items = []
+            count = 0
+            async for item in container.query_items(
+                query=query,
+                parameters=params,
+                enable_cross_partition_query=True,
+            ):
+                items.append(item)
+                count += 1
+                if count >= limit:
+                    break
 
             # Map to GitCommit models
             commits = []
@@ -130,13 +130,13 @@ class GitService:
                 {"name": "@sha", "value": sha},
             ]
 
-            items = list(
-                container.query_items(
-                    query=query,
-                    parameters=params,
-                    enable_cross_partition_query=True,
-                )
-            )
+            items = []
+            async for item in container.query_items(
+                query=query,
+                parameters=params,
+                enable_cross_partition_query=True,
+            ):
+                items.append(item)
 
             if not items:
                 return None
@@ -180,13 +180,13 @@ class GitService:
                 {"name": "@sha", "value": sha},
             ]
 
-            items = list(
-                container.query_items(
-                    query=query,
-                    parameters=params,
-                    enable_cross_partition_query=True,
-                )
-            )
+            items = []
+            async for item in container.query_items(
+                query=query,
+                parameters=params,
+                enable_cross_partition_query=True,
+            ):
+                items.append(item)
 
             if not items or "diff" not in items[0]:
                 # If no diff stored, return empty string

@@ -83,8 +83,9 @@ class TerraformPlanConnector:
                 elif action == "delete":
                     total_destroy += 1
                 elif action == "replace":
+                    # Replacements count as both a destroy and a create
                     total_add += 1
-                    # Note: Terraform plan output shows replace as "+/-" but only counts as add in summary
+                    total_destroy += 1
 
         return {
             "terraform_version": plan.get("terraform_version", ""),

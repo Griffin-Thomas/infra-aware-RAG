@@ -312,7 +312,13 @@ class TerraformService:
                 actions = change.get("actions", [])
 
                 # Determine action type
-                if "create" in actions:
+                # Check for replace first - Terraform represents this as ["delete", "create"]
+                if "delete" in actions and "create" in actions:
+                    # Replacements count as both a destroy and a create
+                    destroy_count += 1
+                    add_count += 1
+                    action = "replace"
+                elif "create" in actions:
                     add_count += 1
                     action = "create"
                 elif "delete" in actions:
@@ -321,10 +327,6 @@ class TerraformService:
                 elif "update" in actions:
                     change_count += 1
                     action = "update"
-                elif actions == ["delete", "create"]:
-                    destroy_count += 1
-                    add_count += 1
-                    action = "replace"
                 else:
                     continue
 

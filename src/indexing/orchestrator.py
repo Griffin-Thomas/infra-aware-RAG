@@ -391,10 +391,13 @@ class IndexingOrchestrator:
             elif doc_type == "terraform_resource":
                 # Add terraform resource
                 self.graph_builder.add_terraform_resource(
-                    address=document.get("address", ""),
-                    resource_type=document.get("type", ""),
-                    file_path=document.get("file_path", ""),
-                    repo_url=document.get("repo_url"),
+                    {
+                        "address": document.get("address", ""),
+                        "type": document.get("type", ""),
+                        "file_path": document.get("file_path", ""),
+                        "repo_url": document.get("repo_url", ""),
+                        "branch": document.get("branch", ""),
+                    }
                 )
 
                 # Link to Azure resource if azure_resource_id is present
@@ -402,7 +405,7 @@ class IndexingOrchestrator:
                 if azure_resource_id:
                     self.graph_builder.link_terraform_to_azure(
                         tf_address=document.get("address", ""),
-                        azure_resource_id=azure_resource_id,
+                        azure_id=azure_resource_id,
                     )
 
         except Exception as e:

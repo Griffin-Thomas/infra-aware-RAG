@@ -149,9 +149,9 @@ All Azure services deployed in **Canada East** or **Canada Central**:
 │   ├── vite.config.ts
 │   └── README.md
 │
-├── tests/              # Test suite (235+ tests passing)
-│   ├── unit/           # Unit tests (23+ files)
-│   ├── integration/    # Integration tests (4+ files)
+├── tests/              # Test suite (611+ tests passing)
+│   ├── unit/           # Unit tests
+│   ├── integration/    # Integration tests
 │   └── fixtures/       # Test data & fixtures
 │       └── terraform/  # Sample .tf files
 │

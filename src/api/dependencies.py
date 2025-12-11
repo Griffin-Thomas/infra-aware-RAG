@@ -9,10 +9,12 @@ from typing import Annotated, Any
 
 from azure.cosmos.aio import CosmosClient
 from azure.identity.aio import DefaultAzureCredential
+from azure.search.documents import SearchClient
 from fastapi import Depends, Request
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+from ..indexing.embeddings import EmbeddingPipeline
 from ..indexing.graph_builder import GraphBuilder
 from ..ingestion.connectors.azure_resource_graph import AzureResourceGraphConnector
 from ..orchestration.conversation import ConversationManager
@@ -154,18 +156,7 @@ async def init_services(settings: Settings) -> None:
     arg_connector = AzureResourceGraphConnector(credential=credential)
     _services["arg_connector"] = arg_connector
 
-    # Initialize search engine
-    search_engine = HybridSearchEngine(
-        search_endpoint=settings.azure_search_endpoint,
-        index_name=settings.azure_search_index_name,
-        credential=credential,
-        openai_endpoint=settings.azure_openai_endpoint,
-        embedding_deployment=settings.azure_openai_embedding_deployment,
-        api_version=settings.azure_openai_api_version,
-    )
-    _services["search_engine"] = search_engine
-
-    # Initialize graph builder
+    # Initialize graph builder (needed for search engine)
     graph_builder = GraphBuilder(
         endpoint=settings.cosmos_db_gremlin_endpoint,
         database=settings.cosmos_db_gremlin_database,
@@ -174,12 +165,37 @@ async def init_services(settings: Settings) -> None:
     )
     _services["graph_builder"] = graph_builder
 
+    # Initialize embedding pipeline (needed for search engine)
+    embedding_pipeline = EmbeddingPipeline(
+        azure_endpoint=settings.azure_openai_endpoint,
+        model=settings.azure_openai_embedding_deployment,
+    )
+    await embedding_pipeline._initialize_client()
+    _services["embedding_pipeline"] = embedding_pipeline
+
+    # Initialize search client
+    search_client = SearchClient(
+        endpoint=settings.azure_search_endpoint,
+        index_name=settings.azure_search_index_name,
+        credential=credential,
+    )
+    _services["search_client"] = search_client
+
+    # Initialize search engine with proper dependencies
+    search_engine = HybridSearchEngine(
+        search_client=search_client,
+        graph_builder=graph_builder,
+        embedding_pipeline=embedding_pipeline,
+    )
+    _services["search_engine"] = search_engine
+
     # Initialize resource service
     resource_service = ResourceService(
         cosmos_client=cosmos_client,
         database_name=settings.cosmos_db_database,
         container_name=settings.cosmos_db_container,
         arg_connector=arg_connector,
+        graph_builder=graph_builder,
     )
     _services["resource_service"] = resource_service
 
@@ -245,6 +261,18 @@ async def cleanup_services() -> None:
     # Close orchestration engine
     if "orchestration_engine" in _services:
         await _services["orchestration_engine"].close()
+
+    # Close embedding pipeline
+    if "embedding_pipeline" in _services:
+        await _services["embedding_pipeline"].close()
+
+    # Close search client
+    if "search_client" in _services:
+        _services["search_client"].close()
+
+    # Close graph builder
+    if "graph_builder" in _services:
+        _services["graph_builder"].close()
 
     # Close Cosmos DB client
     if "cosmos_client" in _services:
