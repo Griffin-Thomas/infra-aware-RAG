@@ -5,16 +5,19 @@ These dependencies are used to access core services like search, databases, and 
 """
 
 from functools import lru_cache
-from typing import Annotated
+from typing import Annotated, Any
 
 from azure.cosmos.aio import CosmosClient
 from azure.identity.aio import DefaultAzureCredential
-from fastapi import Depends
+from fastapi import Depends, Request
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from ..indexing.graph_builder import GraphBuilder
 from ..ingestion.connectors.azure_resource_graph import AzureResourceGraphConnector
+from ..orchestration.conversation import ConversationManager
+from ..orchestration.engine import OrchestrationEngine
+from ..orchestration.memory import MemoryStore
 from ..search.hybrid_search import HybridSearchEngine
 from .services.resource_service import ResourceService
 from .services.terraform_service import TerraformService
@@ -202,12 +205,47 @@ async def init_services(settings: Settings) -> None:
 
         init_app_insights(settings.applicationinsights_connection_string)
 
+    # Initialize orchestration engine
+    orchestration_engine = OrchestrationEngine(
+        azure_endpoint=settings.azure_openai_endpoint,
+        model=settings.azure_openai_chat_deployment,
+        api_version=settings.azure_openai_api_version,
+    )
+    _services["orchestration_engine"] = orchestration_engine
+
+    # Initialize memory store
+    memory_store = MemoryStore(
+        cosmos_endpoint=settings.cosmos_db_endpoint,
+        database_name=settings.cosmos_db_database,
+        container_name="conversations",
+    )
+    await memory_store.init()
+    _services["memory_store"] = memory_store
+
+    # Initialize conversation manager with tool executor
+    from .routers.tools import execute_tool
+
+    conversation_manager = ConversationManager(
+        engine=orchestration_engine,
+        memory_store=memory_store,
+        tool_executor=execute_tool,
+    )
+    _services["conversation_manager"] = conversation_manager
+
 
 async def cleanup_services() -> None:
     """Cleanup application services.
 
     Called during FastAPI lifespan shutdown.
     """
+    # Close memory store
+    if "memory_store" in _services:
+        await _services["memory_store"].close()
+
+    # Close orchestration engine
+    if "orchestration_engine" in _services:
+        await _services["orchestration_engine"].close()
+
     # Close Cosmos DB client
     if "cosmos_client" in _services:
         await _services["cosmos_client"].close()
@@ -265,6 +303,48 @@ def get_git_service() -> GitService:
     return _services["git_service"]
 
 
+def get_conversation_manager() -> ConversationManager:
+    """Get the conversation manager instance."""
+    if "conversation_manager" not in _services:
+        raise RuntimeError("Services not initialized. Call init_services() first.")
+    return _services["conversation_manager"]
+
+
+def get_orchestration_engine() -> OrchestrationEngine:
+    """Get the orchestration engine instance."""
+    if "orchestration_engine" not in _services:
+        raise RuntimeError("Services not initialized. Call init_services() first.")
+    return _services["orchestration_engine"]
+
+
+def get_memory_store() -> MemoryStore:
+    """Get the memory store instance."""
+    if "memory_store" not in _services:
+        raise RuntimeError("Services not initialized. Call init_services() first.")
+    return _services["memory_store"]
+
+
+async def get_current_user(request: Request) -> dict[str, Any]:
+    """Get current user from request state.
+
+    This extracts user info that was set by the authentication middleware.
+    If auth is disabled, returns a mock user.
+
+    Returns:
+        Dict containing user claims (sub, oid, name, etc.)
+    """
+    # Check if user info was set by auth middleware
+    if hasattr(request.state, "user") and request.state.user:
+        return request.state.user
+
+    # Return anonymous user if auth is not configured
+    return {
+        "sub": "anonymous",
+        "oid": "anonymous",
+        "name": "Anonymous User",
+    }
+
+
 # Type aliases for dependency injection
 SearchEngineDep = Annotated[HybridSearchEngine, Depends(get_search_engine)]
 GraphBuilderDep = Annotated[GraphBuilder, Depends(get_graph_builder)]
@@ -273,4 +353,7 @@ ARGConnectorDep = Annotated[AzureResourceGraphConnector, Depends(get_arg_connect
 ResourceServiceDep = Annotated[ResourceService, Depends(get_resource_service)]
 TerraformServiceDep = Annotated[TerraformService, Depends(get_terraform_service)]
 GitServiceDep = Annotated[GitService, Depends(get_git_service)]
+ConversationManagerDep = Annotated[ConversationManager, Depends(get_conversation_manager)]
+OrchestrationEngineDep = Annotated[OrchestrationEngine, Depends(get_orchestration_engine)]
+MemoryStoreDep = Annotated[MemoryStore, Depends(get_memory_store)]
 SettingsDep = Annotated[Settings, Depends(get_settings)]

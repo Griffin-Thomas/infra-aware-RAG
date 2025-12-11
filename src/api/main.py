@@ -129,6 +129,8 @@ async def readiness_check():
         "resource_service": "ready" if "resource_service" in _services else "not_initialized",
         "terraform_service": "ready" if "terraform_service" in _services else "not_initialized",
         "git_service": "ready" if "git_service" in _services else "not_initialized",
+        "orchestration_engine": "ready" if "orchestration_engine" in _services else "not_initialized",
+        "conversation_manager": "ready" if "conversation_manager" in _services else "not_initialized",
     }
 
     # Check if all required services are ready
@@ -141,10 +143,11 @@ async def readiness_check():
 
 
 # Register API routers
-from .routers import search, resources, terraform, git, tools
+from .routers import search, resources, terraform, git, tools, conversations
 
 app.include_router(search.router, prefix="/api/v1")
 app.include_router(resources.router, prefix="/api/v1")
 app.include_router(terraform.router, prefix="/api/v1")
 app.include_router(git.router, prefix="/api/v1")
 app.include_router(tools.router, prefix="/api/v1")
+app.include_router(conversations.router, prefix="/api/v1")

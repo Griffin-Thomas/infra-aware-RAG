@@ -10,7 +10,7 @@
 | Phase 1: Data Ingestion     | In Progress | 66/75 |
 | Phase 2: Indexing & Search  | In Progress | 46/49 |
 | Phase 3: API & Tools        | In Progress | 57/61 |
-| Phase 4: LLM & UI           | Not Started | 0/84  |
+| Phase 4: LLM & UI           | In Progress | 28/84 |
 
 ---
 
@@ -370,67 +370,67 @@
 > **Milestone 4.2**: Chat UI
 > **Milestone 4.3**: CLI & Polish
 
-### 4.1 Orchestration Engine
+### 4.1 Orchestration Engine ✅
 > Context: `docs/04-llm-orchestration-and-ui.md` → "Orchestration Engine" section
 > Code example: Search for `class OrchestrationEngine`
 
-- [ ] Create `src/orchestration/__init__.py`
-- [ ] Implement `Message`, `ToolCall`, `StreamChunk` dataclasses in `src/orchestration/models.py`
-- [ ] Implement `OrchestrationEngine` class in `src/orchestration/engine.py`
-- [ ] Implement `chat()` method with streaming support
-- [ ] Implement `_stream_response()` for SSE handling
-- [ ] Implement `_format_messages()` for OpenAI API
-- [ ] Implement `_format_tools()` for function calling
-- [ ] Add retry logic with backoff
-- [ ] Handle rate limiting gracefully
-- [ ] Add token counting
-- [ ] Create unit tests in `tests/unit/test_orchestration_engine.py`
+- [x] Create `src/orchestration/__init__.py`
+- [x] Implement `Message`, `ToolCall`, `StreamChunk` dataclasses in `src/orchestration/models.py`
+- [x] Implement `OrchestrationEngine` class in `src/orchestration/engine.py`
+- [x] Implement `chat()` method with streaming support
+- [x] Implement `_stream_response()` for SSE handling
+- [x] Implement `_format_messages()` for OpenAI API
+- [x] Implement `_format_tools()` for function calling
+- [x] Add retry logic with backoff
+- [x] Handle rate limiting gracefully
+- [x] Add token counting
+- [x] Create unit tests in `tests/unit/test_orchestration_engine.py`
 
-### 4.2 Conversation Manager
+### 4.2 Conversation Manager ✅
 > Context: `docs/04-llm-orchestration-and-ui.md` → "Conversation Manager" section
 > Code example: Search for `class ConversationManager`
 
-- [ ] Implement `Conversation` dataclass
-- [ ] Implement `AssistantResponse` dataclass
-- [ ] Implement `ConversationManager` class in `src/orchestration/conversation.py`
-- [ ] Implement `create_conversation()` method
-- [ ] Implement `send_message()` with tool execution loop
-- [ ] Implement `_get_context_messages()` with window management
-- [ ] Implement `_execute_tool()` dispatcher
-- [ ] Implement `_summarize_messages()` for context compression
-- [ ] Implement `_extract_sources()` for citations
-- [ ] Create unit tests in `tests/unit/test_conversation_manager.py`
+- [x] Implement `Conversation` dataclass
+- [x] Implement `AssistantResponse` dataclass
+- [x] Implement `ConversationManager` class in `src/orchestration/conversation.py`
+- [x] Implement `create_conversation()` method
+- [x] Implement `send_message()` with tool execution loop
+- [x] Implement `_get_context_messages()` with window management
+- [x] Implement `_execute_tool()` dispatcher
+- [x] Implement `_summarize_messages()` for context compression
+- [x] Implement `_extract_sources()` for citations
+- [x] Create unit tests in `tests/unit/test_conversation_manager.py`
 
-### 4.3 System Prompts
+### 4.3 System Prompts ✅
 > Context: `docs/04-llm-orchestration-and-ui.md` → "System Prompts" section
 > Code example: Search for `SYSTEM_PROMPT_TEMPLATE`
 
-- [ ] Create `src/orchestration/prompts.py`
-- [ ] Write main system prompt template
-- [ ] Implement `get_system_prompt()` function with context injection
-- [ ] Create `PLAN_ANALYSIS_PROMPT` for Terraform plans
-- [ ] Create `ERROR_RECOVERY_PROMPT` for fallback handling
-- [ ] Test prompts for quality and iterate
+- [x] Create `src/orchestration/prompts.py`
+- [x] Write main system prompt template
+- [x] Implement `get_system_prompt()` function with context injection
+- [x] Create `PLAN_ANALYSIS_PROMPT` for Terraform plans
+- [x] Create `ERROR_RECOVERY_PROMPT` for fallback handling
+- [x] Test prompts for quality and iterate
 
-### 4.4 Memory Store
+### 4.4 Memory Store ✅
 > Context: `docs/04-llm-orchestration-and-ui.md` → "Memory Store" section
 > Code example: Search for `class MemoryStore`
 
-- [ ] Implement `MemoryStore` class in `src/orchestration/memory.py`
-- [ ] Implement `save_conversation()` method
-- [ ] Implement `load_conversation()` method
-- [ ] Implement `get_user_conversations()` for history
-- [ ] Implement `save_user_preference()` method
-- [ ] Implement `get_user_preferences()` method
-- [ ] Add TTL for old conversations (30 days)
-- [ ] Create unit tests in `tests/unit/test_memory_store.py`
+- [x] Implement `MemoryStore` class in `src/orchestration/memory.py`
+- [x] Implement `save_conversation()` method
+- [x] Implement `load_conversation()` method
+- [x] Implement `get_user_conversations()` for history
+- [x] Implement `save_user_preference()` method
+- [x] Implement `get_user_preferences()` method
+- [x] Add TTL for old conversations (30 days)
+- [x] Create unit tests in `tests/unit/test_memory_store.py`
 
-### 4.5 Conversation API Endpoints
-- [ ] Implement `POST /conversations` endpoint (create new conversation)
-- [ ] Implement `GET /conversations` endpoint (list user's conversations)
-- [ ] Implement `GET /conversations/{id}` endpoint
-- [ ] Implement `POST /conversations/{id}/messages` with SSE streaming
-- [ ] Implement `DELETE /conversations/{id}` endpoint
+### 4.5 Conversation API Endpoints ✅
+- [x] Implement `POST /conversations` endpoint (create new conversation)
+- [x] Implement `GET /conversations` endpoint (list user's conversations)
+- [x] Implement `GET /conversations/{id}` endpoint
+- [x] Implement `POST /conversations/{id}/messages` with SSE streaming
+- [x] Implement `DELETE /conversations/{id}` endpoint
 
 ### 4.6 Web Chat UI - Setup
 > Context: `docs/04-llm-orchestration-and-ui.md` → "Web Chat UI" section

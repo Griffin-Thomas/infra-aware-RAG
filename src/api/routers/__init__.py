@@ -1,5 +1,5 @@
 """API routers."""
 
-from . import search, resources, terraform, git, tools
+from . import search, resources, terraform, git, tools, conversations
 
-__all__ = ["search", "resources", "terraform", "git", "tools"]
+__all__ = ["search", "resources", "terraform", "git", "tools", "conversations"]
