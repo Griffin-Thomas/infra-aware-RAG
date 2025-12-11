@@ -10,7 +10,7 @@
 | Phase 1: Data Ingestion     | In Progress | 66/75 |
 | Phase 2: Indexing & Search  | In Progress | 46/49 |
 | Phase 3: API & Tools        | In Progress | 57/61 |
-| Phase 4: LLM & UI           | In Progress | 28/84 |
+| Phase 4: LLM & UI           | In Progress | 58/84 |
 
 ---
 
@@ -432,54 +432,54 @@
 - [x] Implement `POST /conversations/{id}/messages` with SSE streaming
 - [x] Implement `DELETE /conversations/{id}` endpoint
 
-### 4.6 Web Chat UI - Setup
+### 4.6 Web Chat UI - Setup ✅
 > Context: `docs/04-llm-orchestration-and-ui.md` → "Web Chat UI" section
 
-- [ ] Create `frontend/` directory with React + TypeScript + Vite
-- [ ] Configure Tailwind CSS
-- [ ] Install Shadcn/UI components
-- [ ] Set up React Query for data fetching
-- [ ] Configure authentication with Azure AD (MSAL)
-- [ ] Create `frontend/src/services/api.ts` for API client
-- [ ] Create `frontend/src/services/auth.ts` for auth helpers
+- [x] Create `frontend/` directory with React + TypeScript + Vite
+- [x] Configure Tailwind CSS
+- [x] Install Shadcn/UI components
+- [x] Set up React Query for data fetching
+- [x] Configure authentication with Azure AD (MSAL)
+- [x] Create `frontend/src/services/api.ts` for API client
+- [x] Create `frontend/src/services/auth.ts` for auth helpers
 
-### 4.7 Web Chat UI - Components
+### 4.7 Web Chat UI - Components ✅
 > Context: `docs/04-llm-orchestration-and-ui.md` → "Main Chat Component" section
 > Code example: Search for `ChatContainer.tsx`
 
-- [ ] Implement `ChatContainer` component in `frontend/src/components/Chat/`
-- [ ] Implement `MessageList` component
-- [ ] Implement `Message` component with Markdown rendering
-- [ ] Implement `InputBar` component
-- [ ] Implement `ToolCallDisplay` component
-- [ ] Implement `CodeBlock` common component
-- [ ] Implement `ResourceLink` common component
-- [ ] Implement `LoadingIndicator` component
-- [ ] **Test & Refine**: Use Playwright MCP to visually verify all components render correctly
-- [ ] **Test & Refine**: Use Playwright MCP to test component interactions (clicks, inputs, focus states)
+- [x] Implement `ChatContainer` component in `frontend/src/components/Chat/`
+- [x] Implement `MessageList` component
+- [x] Implement `Message` component with Markdown rendering
+- [x] Implement `InputBar` component
+- [x] Implement `ToolCallDisplay` component
+- [x] Implement `CodeBlock` common component
+- [x] Implement `ResourceLink` common component
+- [x] Implement `LoadingIndicator` component
+- [x] **Test & Refine**: Use Playwright MCP to visually verify all components render correctly
+- [x] **Test & Refine**: Use Playwright MCP to test component interactions (clicks, inputs, focus states)
 
-### 4.8 Web Chat UI - Hooks & Features
+### 4.8 Web Chat UI - Hooks & Features ✅
 > Context: `docs/04-llm-orchestration-and-ui.md` → "Chat Hook" section
 > Code example: Search for `useChat.ts`
 
-- [ ] Implement `useChat` hook in `frontend/src/hooks/`
-- [ ] Implement `useAuth` hook
-- [ ] Implement `useStream` hook for SSE handling
-- [ ] Add streaming display with cursor animation
-- [ ] Add conversation history sidebar
-- [ ] Add source/citation display
-- [ ] Add error handling and retry UI
-- [ ] **Test & Refine**: Use Playwright MCP to test streaming message display and cursor animation
-- [ ] **Test & Refine**: Use Playwright MCP to test conversation history navigation and sidebar interactions
-- [ ] **Test & Refine**: Use Playwright MCP to test error handling flows and retry functionality
+- [x] Implement `useChat` hook in `frontend/src/hooks/`
+- [x] Implement `useAuth` hook
+- [x] Implement `useStream` hook for SSE handling
+- [x] Add streaming display with cursor animation
+- [x] Add conversation history sidebar
+- [x] Add source/citation display
+- [x] Add error handling and retry UI
+- [x] **Test & Refine**: Use Playwright MCP to test streaming message display and cursor animation
+- [x] **Test & Refine**: Use Playwright MCP to test conversation history navigation and sidebar interactions
+- [x] **Test & Refine**: Use Playwright MCP to test error handling flows and retry functionality
 
 ### 4.9 Web Chat UI - Deployment
-- [ ] Build production bundle
+- [x] Build production bundle
 - [ ] Create Azure Static Web Apps configuration
 - [ ] Deploy frontend to Azure Static Web Apps
 - [ ] Configure custom domain (optional)
-- [ ] **Test & Refine**: Use Playwright MCP for full end-to-end testing of chat flow before deployment
-- [ ] **Test & Refine**: Use Playwright MCP to verify production build renders and functions correctly locally
+- [x] **Test & Refine**: Use Playwright MCP for full end-to-end testing of chat flow before deployment
+- [x] **Test & Refine**: Use Playwright MCP to verify production build renders and functions correctly locally
 
 ### 4.10 CLI Tool
 > Context: `docs/04-llm-orchestration-and-ui.md` → "CLI Tool" section
