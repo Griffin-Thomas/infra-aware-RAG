@@ -84,9 +84,14 @@ class IngestionOrchestrator:
         # Initialize Cosmos DB client
         if self.config.cosmos_connection_string:
             self.cosmos_client = CosmosClient(self.config.cosmos_connection_string)
+        elif self.config.cosmos_endpoint:
+            # Use credential-based auth with DefaultAzureCredential
+            self.cosmos_client = CosmosClient(
+                url=self.config.cosmos_endpoint,
+                credential=self.credential,
+            )
         else:
-            # TODO: Use credential-based auth
-            raise ValueError("Cosmos DB connection string required")
+            raise ValueError("Either cosmos_connection_string or cosmos_endpoint is required")
 
         # Get database and container
         database = self.cosmos_client.get_database_client(

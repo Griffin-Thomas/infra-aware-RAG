@@ -249,8 +249,8 @@ class TerraformService:
         Returns:
             PlanAnalysis with summary, risk level, and recommendations
         """
-        # TODO: Implement actual AI analysis using Azure OpenAI
-        # For now, return a basic analysis based on plan statistics
+        # Note: AI-based analysis will be implemented in Phase 4 (LLM Orchestration).
+        # For now, return a basic analysis based on plan statistics.
 
         total_changes = plan.add + plan.change + plan.destroy
 

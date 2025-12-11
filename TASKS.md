@@ -10,7 +10,7 @@
 | Phase 1: Data Ingestion     | In Progress | 66/75 |
 | Phase 2: Indexing & Search  | In Progress | 46/49 |
 | Phase 3: API & Tools        | In Progress | 57/61 |
-| Phase 4: LLM & UI           | Not Started | 0/77  |
+| Phase 4: LLM & UI           | Not Started | 0/84  |
 
 ---
 
@@ -455,6 +455,8 @@
 - [ ] Implement `CodeBlock` common component
 - [ ] Implement `ResourceLink` common component
 - [ ] Implement `LoadingIndicator` component
+- [ ] **Test & Refine**: Use Playwright MCP to visually verify all components render correctly
+- [ ] **Test & Refine**: Use Playwright MCP to test component interactions (clicks, inputs, focus states)
 
 ### 4.8 Web Chat UI - Hooks & Features
 > Context: `docs/04-llm-orchestration-and-ui.md` → "Chat Hook" section
@@ -467,12 +469,17 @@
 - [ ] Add conversation history sidebar
 - [ ] Add source/citation display
 - [ ] Add error handling and retry UI
+- [ ] **Test & Refine**: Use Playwright MCP to test streaming message display and cursor animation
+- [ ] **Test & Refine**: Use Playwright MCP to test conversation history navigation and sidebar interactions
+- [ ] **Test & Refine**: Use Playwright MCP to test error handling flows and retry functionality
 
 ### 4.9 Web Chat UI - Deployment
 - [ ] Build production bundle
 - [ ] Create Azure Static Web Apps configuration
 - [ ] Deploy frontend to Azure Static Web Apps
 - [ ] Configure custom domain (optional)
+- [ ] **Test & Refine**: Use Playwright MCP for full end-to-end testing of chat flow before deployment
+- [ ] **Test & Refine**: Use Playwright MCP to verify production build renders and functions correctly locally
 
 ### 4.10 CLI Tool
 > Context: `docs/04-llm-orchestration-and-ui.md` → "CLI Tool" section

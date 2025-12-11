@@ -27,7 +27,7 @@ from src.api.models.git import GitCommit, FileChange
 
 @pytest.fixture
 def mock_search_engine():
-    """Create mock search engine with realistic behavior."""
+    """Create mock search engine with realistic behaviour."""
     mock = AsyncMock()
     mock.search.return_value = HybridSearchResults(
         results=[
@@ -64,7 +64,7 @@ def mock_search_engine():
 
 @pytest.fixture
 def mock_resource_service():
-    """Create mock resource service with realistic behavior."""
+    """Create mock resource service with realistic behaviour."""
     mock = AsyncMock()
 
     # get_resource returns an Azure resource
@@ -139,7 +139,7 @@ def mock_resource_service():
 
 @pytest.fixture
 def mock_terraform_service():
-    """Create mock Terraform service with realistic behavior."""
+    """Create mock Terraform service with realistic behaviour."""
     mock = AsyncMock()
 
     # list_resources returns Terraform resources
@@ -210,7 +210,7 @@ def mock_terraform_service():
 
 @pytest.fixture
 def mock_git_service():
-    """Create mock Git service with realistic behavior."""
+    """Create mock Git service with realistic behaviour."""
     mock = AsyncMock()
 
     # list_commits returns commit history

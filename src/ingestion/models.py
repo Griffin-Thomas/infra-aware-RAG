@@ -101,6 +101,7 @@ class IngestionConfig(BaseModel):
 
     # Cosmos DB
     cosmos_connection_string: str | None = None
+    cosmos_endpoint: str | None = None  # Alternative to connection_string (uses DefaultAzureCredential)
     cosmos_database_name: str = "infra-rag"
     cosmos_container_name: str = "documents"
 

@@ -82,13 +82,11 @@ def create_app() -> FastAPI:
 # Create the application instance
 app = create_app()
 
-# TODO: Add authentication middleware (Phase 3.2)
-# app.add_middleware(AuthMiddleware)
-
-# TODO: Add rate limiting middleware (Phase 3.3)
+# Note: Middleware is implemented in src/api/middleware/ but not enabled by default.
+# Enable in production by uncommenting below and providing required settings:
+# from .middleware import AuthMiddleware, RateLimitMiddleware, LoggingMiddleware
+# app.add_middleware(AuthMiddleware, tenant_id=settings.azure_ad_tenant_id, client_id=settings.azure_ad_client_id)
 # app.add_middleware(RateLimitMiddleware)
-
-# TODO: Add logging middleware (Phase 3.3)
 # app.add_middleware(LoggingMiddleware)
 
 
@@ -121,15 +119,24 @@ async def readiness_check():
     This is used by orchestration platforms (Kubernetes, Azure Container Apps)
     to determine if the service can receive traffic.
     """
-    # TODO: Add actual dependency checks (search engine, Cosmos DB, etc.)
-    # For now, just return ready status
+    from .dependencies import _services
+
+    # Check which services are initialized
+    dependencies = {
+        "search_engine": "ready" if "search_engine" in _services else "not_initialized",
+        "cosmos_db": "ready" if "cosmos_client" in _services else "not_initialized",
+        "graph_db": "ready" if "graph_builder" in _services else "not_initialized",
+        "resource_service": "ready" if "resource_service" in _services else "not_initialized",
+        "terraform_service": "ready" if "terraform_service" in _services else "not_initialized",
+        "git_service": "ready" if "git_service" in _services else "not_initialized",
+    }
+
+    # Check if all required services are ready
+    all_ready = all(status == "ready" for status in dependencies.values())
+
     return {
-        "status": "ready",
-        "dependencies": {
-            "search_engine": "ready",
-            "cosmos_db": "ready",
-            "graph_db": "ready",
-        },
+        "status": "ready" if all_ready else "not_ready",
+        "dependencies": dependencies,
     }
 
 
@@ -141,8 +148,3 @@ app.include_router(resources.router, prefix="/api/v1")
 app.include_router(terraform.router, prefix="/api/v1")
 app.include_router(git.router, prefix="/api/v1")
 app.include_router(tools.router, prefix="/api/v1")
-
-# TODO: Register additional routers as they're implemented
-# from .routers import git, tools
-# app.include_router(git.router, prefix="/api/v1", tags=["git"])
-# app.include_router(tools.router, prefix="/api/v1", tags=["tools"])
