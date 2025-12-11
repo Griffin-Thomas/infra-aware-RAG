@@ -68,6 +68,9 @@ CLAUDE.md
 logs/
 .cache/
 
+# Playwright artifacts
+.playwright-mcp/
+
 # Azure
 .azure/
 

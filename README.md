@@ -10,6 +10,10 @@ Ask natural language questions like:
 - "Show me the Terraform code for this load balancer"
 - "What will this Terraform plan change?"
 
+## Frontend Preview
+
+![Frontend chat interface](docs/assets/frontend-chat-interface.png)
+
 ## Data Sources
 
 - **Azure Resource Graph** - Live state of all Azure resources
@@ -80,7 +84,7 @@ All Azure services deployed in **Canada East** or **Canada Central**:
 │   │   ├── main.py            # FastAPI app with lifespan management
 │   │   ├── dependencies.py    # Dependency injection & settings
 │   │   ├── middleware/        # Auth, rate limiting, logging, monitoring
-│   │   │   ├── auth.py        # Azure AD JWT authentication
+│   │   │   ├── auth.py        # Entra ID JWT authentication
 │   │   │   ├── rate_limit.py  # Token bucket rate limiting
 │   │   │   ├── logging.py     # Structured logging
 │   │   │   └── app_insights.py # Application Insights integration

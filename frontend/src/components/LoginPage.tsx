@@ -29,7 +29,7 @@ export function LoginPage() {
             <div className="space-y-2 text-center">
               <h2 className="text-xl font-semibold">Welcome</h2>
               <p className="text-sm text-muted-foreground">
-                Sign in with your Azure AD account to get started
+                Sign in with your Entra ID account to get started
               </p>
             </div>
 

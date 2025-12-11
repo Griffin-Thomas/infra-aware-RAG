@@ -1,6 +1,6 @@
-"""Authentication middleware for Azure AD integration.
+"""Authentication middleware for Entra ID integration.
 
-This middleware validates JWT tokens from Azure AD and extracts user information.
+This middleware validates JWT tokens from Entra ID and extracts user information.
 It supports both user authentication and service-to-service authentication via managed identities.
 """
 
@@ -14,10 +14,10 @@ from starlette.middleware.base import BaseHTTPMiddleware
 
 
 class AuthMiddleware(BaseHTTPMiddleware):
-    """Authenticate requests using Azure AD (Entra ID) tokens.
+    """Authenticate requests using Entra ID tokens.
 
     This middleware:
-    1. Validates JWT tokens against Azure AD
+    1. Validates JWT tokens against Entra ID
     2. Caches JWKS (JSON Web Key Set) for performance
     3. Extracts user information and adds it to request state
     4. Exempts certain paths from authentication (health checks, docs)
@@ -43,8 +43,8 @@ class AuthMiddleware(BaseHTTPMiddleware):
 
         Args:
             app: The FastAPI application
-            tenant_id: Azure AD tenant ID (if None, auth is disabled)
-            client_id: Azure AD client/application ID (if None, auth is disabled)
+            tenant_id: Entra ID tenant ID (if None, auth is disabled)
+            client_id: Entra ID client/application ID (if None, auth is disabled)
             enabled: Whether authentication is enabled (default: True)
         """
         super().__init__(app)
@@ -133,7 +133,7 @@ class AuthMiddleware(BaseHTTPMiddleware):
         return await call_next(request)
 
     async def _validate_token(self, token: str) -> dict[str, Any]:
-        """Validate JWT token against Azure AD.
+        """Validate JWT token against Entra ID.
 
         Args:
             token: The JWT token to validate
@@ -168,7 +168,7 @@ class AuthMiddleware(BaseHTTPMiddleware):
         return payload
 
     async def _get_jwks(self) -> dict[str, Any]:
-        """Get JWKS from Azure AD with caching.
+        """Get JWKS from Entra ID with caching.
 
         Returns:
             The JWKS dictionary
@@ -222,7 +222,7 @@ def get_current_user(request: Request) -> dict[str, Any]:
 
 
 def require_role(required_role: str):
-    """Dependency to require a specific Azure AD role.
+    """Dependency to require a specific Entra ID role.
 
     Args:
         required_role: The role name required
@@ -252,7 +252,7 @@ def require_role(required_role: str):
 
 
 def require_group(required_group: str):
-    """Dependency to require membership in a specific Azure AD group.
+    """Dependency to require membership in a specific Entra ID group.
 
     Args:
         required_group: The group ID or name required

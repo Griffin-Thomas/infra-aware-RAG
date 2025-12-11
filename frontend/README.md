@@ -9,7 +9,7 @@ React + TypeScript chat UI for the Infra-Aware RAG Assistant.
 - **Tailwind CSS v4** for styling
 - **Shadcn/UI** component patterns (Radix primitives)
 - **TanStack Query** (React Query) for data fetching
-- **MSAL React** for Azure AD authentication
+- **MSAL React** for Entra ID authentication
 - **React Router** for navigation
 
 ## Prerequisites
@@ -35,10 +35,10 @@ Copy the example environment file and configure:
 cp .env.example .env
 ```
 
-Edit `.env` with your Azure AD configuration:
+Edit `.env` with your Entra ID configuration:
 
 ```env
-# Azure AD Configuration
+# Entra ID Configuration
 VITE_AZURE_CLIENT_ID=your-client-id
 VITE_AZURE_AUTHORITY=https://login.microsoftonline.com/your-tenant-id
 VITE_AZURE_REDIRECT_URI=http://localhost:5173
@@ -105,7 +105,7 @@ frontend/
 └── README.md
 ```
 
-## Azure AD Setup
+## Entra ID Setup
 
 1. Register an application in Azure Portal
 2. Configure redirect URIs for your environment:
@@ -146,7 +146,7 @@ If you see CORS errors, ensure:
 
 ### Authentication Issues
 
-1. Verify Azure AD app registration is correct
+1. Verify Entra ID app registration is correct
 2. Check redirect URI matches exactly (including trailing slashes)
 3. Ensure the tenant ID is correct in the authority URL
 

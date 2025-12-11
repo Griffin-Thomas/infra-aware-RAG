@@ -87,7 +87,7 @@ class EmbeddingPipeline:
             )
 
     def _get_token_provider(self):
-        """Get token provider function for Azure AD authentication."""
+        """Get token provider function for Entra ID authentication."""
         async def get_token():
             if self._credential is None:
                 raise RuntimeError("Credential not initialized")

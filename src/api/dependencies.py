@@ -110,10 +110,10 @@ class Settings(BaseSettings):
 
     # Authentication settings (optional for MVP)
     azure_ad_tenant_id: str | None = Field(
-        default=None, description="Azure AD tenant ID for authentication"
+        default=None, description="Entra ID tenant ID for authentication"
     )
     azure_ad_client_id: str | None = Field(
-        default=None, description="Azure AD client ID for authentication"
+        default=None, description="Entra ID client ID for authentication"
     )
 
     # Rate limiting settings

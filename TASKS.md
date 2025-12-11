@@ -273,7 +273,7 @@
 > Code example: Search for `class AuthMiddleware`
 
 - [x] Implement `AuthMiddleware` in `src/api/middleware/auth.py`
-- [x] Add JWT token validation against Azure AD
+- [x] Add JWT token validation against Entra ID
 - [x] Implement JWKS fetching and caching
 - [x] Add user info extraction to request state
 - [ ] Implement RBAC based on AAD groups (future)
@@ -439,7 +439,7 @@
 - [x] Configure Tailwind CSS
 - [x] Install Shadcn/UI components
 - [x] Set up React Query for data fetching
-- [x] Configure authentication with Azure AD (MSAL)
+- [x] Configure authentication with Entra ID (MSAL)
 - [x] Create `frontend/src/services/api.ts` for API client
 - [x] Create `frontend/src/services/auth.ts` for auth helpers
 

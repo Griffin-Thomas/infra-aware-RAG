@@ -24,7 +24,7 @@ By the end of this phase, we will have a complete API surface that can be consum
 - Terraform plan parsing and analysis
 - Resource detail retrieval
 - Git history queries
-- Authentication via Azure AD
+- Authentication via Entra ID
 - Rate limiting and usage tracking
 
 ### Out of Scope (Future Phases)
@@ -84,7 +84,7 @@ By the end of this phase, we will have a complete API surface that can be consum
 
 ### Authentication
 
-**Decision:** Azure AD (Entra ID) with OAuth2/OIDC
+**Decision:** Entra ID with OAuth2/OIDC
 
 **Rationale:**
 - Native Azure integration
@@ -1587,7 +1587,7 @@ from jose import jwt, JWTError
 import httpx
 
 class AuthMiddleware(BaseHTTPMiddleware):
-    """Authenticate requests using Azure AD tokens."""
+    """Authenticate requests using Entra ID tokens."""
 
     EXEMPT_PATHS = ["/health", "/ready", "/docs", "/openapi.json"]
 
@@ -1628,7 +1628,7 @@ class AuthMiddleware(BaseHTTPMiddleware):
         return await call_next(request)
 
     async def _validate_token(self, token: str) -> dict:
-        """Validate JWT token against Azure AD."""
+        """Validate JWT token against Entra ID."""
         # Get JWKS (cache this in production)
         if not self._jwks:
             async with httpx.AsyncClient() as client:
