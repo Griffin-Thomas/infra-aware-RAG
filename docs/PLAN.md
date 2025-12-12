@@ -305,7 +305,7 @@ git_repos:
 
 | Component | Estimated Monthly Cost (MVP) |
 |-----------|------------------------------|
-| Azure OpenAI (GPT-4.1) | $200-500 |
+| Azure OpenAI (GPT-4o) | $200-500 |
 | Azure AI Search (Basic) | $75 |
 | Cosmos DB (Serverless) | $50-100 |
 | Container Apps | $50-100 |

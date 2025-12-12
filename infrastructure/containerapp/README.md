@@ -139,7 +139,7 @@ The Container App requires the following environment variables:
 | `AZURE_REGION` | Yes | Azure region (canadaeast or canadacentral) |
 | `AZURE_OPENAI_API_VERSION` | No | OpenAI API version (default: 2024-02-01) |
 | `AZURE_OPENAI_EMBEDDING_DEPLOYMENT` | No | Embedding model name (default: text-embedding-3-large) |
-| `AZURE_OPENAI_CHAT_DEPLOYMENT` | No | Chat model name (default: gpt-4) |
+| `AZURE_OPENAI_CHAT_DEPLOYMENT` | No | Chat model name (default: gpt-4o) |
 | `AZURE_SEARCH_INDEX_NAME` | No | Search index name (default: infra-rag-index) |
 | `RATE_LIMIT_PER_MINUTE` | No | Rate limit (default: 60) |
 | `RATE_LIMIT_PER_HOUR` | No | Rate limit (default: 1000) |

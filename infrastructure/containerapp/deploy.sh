@@ -126,7 +126,7 @@ else
       "API_VERSION=${VERSION}" \
       "AZURE_OPENAI_API_VERSION=2024-02-01" \
       "AZURE_OPENAI_EMBEDDING_DEPLOYMENT=text-embedding-3-large" \
-      "AZURE_OPENAI_CHAT_DEPLOYMENT=gpt-4" \
+      "AZURE_OPENAI_CHAT_DEPLOYMENT=gpt-4o" \
       "AZURE_SEARCH_INDEX_NAME=infra-rag-index" \
       "COSMOS_DB_DATABASE=infra-rag" \
       "COSMOS_DB_CONTAINER=documents" \

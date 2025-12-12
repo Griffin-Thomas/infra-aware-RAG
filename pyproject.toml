@@ -83,7 +83,7 @@ dev = [
 ]
 
 [project.scripts]
-infra-rag = "src.cli.main:app"
+infra-rag = "src.cli.main:main"
 
 [tool.setuptools.packages.find]
 where = ["."]

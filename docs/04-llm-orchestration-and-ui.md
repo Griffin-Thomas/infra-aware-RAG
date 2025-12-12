@@ -18,7 +18,7 @@ By the end of this phase, we will have a fully functional infra-aware assistant 
 ## Scope
 
 ### In Scope
-- LLM integration (Azure OpenAI GPT-4.1)
+- LLM integration (Azure OpenAI GPT-4o)
 - Function calling with tool routing
 - Conversation memory (short-term and long-term)
 - System prompts and domain-specific instructions
@@ -63,7 +63,7 @@ By the end of this phase, we will have a fully functional infra-aware assistant 
 │                                      ▼                                      │
 │  ┌─────────────────────────────────────────────────────────────────────┐    │
 │  │                         LLM Client                                  │    │
-│  │             (Azure OpenAI GPT-4.1 with Function Calling)             │    │
+│  │             (Azure OpenAI GPT-4o with Function Calling)             │    │
 │  └─────────────────────────────────────────────────────────────────────┘    │
 └─────────────────────────────────────────────────────────────────────────────┘
                                       │
@@ -83,7 +83,7 @@ By the end of this phase, we will have a fully functional infra-aware assistant 
 
 ### LLM Provider
 
-**Decision:** Azure OpenAI GPT-4.1
+**Decision:** Azure OpenAI GPT-4o
 
 **Rationale:**
 - Best function calling capabilities
@@ -95,8 +95,8 @@ By the end of this phase, we will have a fully functional infra-aware assistant 
 **Model Selection:**
 | Use Case | Model | Reasoning |
 |----------|-------|-----------|
-| Main chat | gpt-4.1 | Best quality, function calling |
-| Plan analysis | gpt-4.1 | Complex reasoning needed |
+| Main chat | gpt-4o | Best quality, function calling |
+| Plan analysis | gpt-4o | Complex reasoning needed |
 | Simple queries | gpt-4o-mini | Cost optimization (future) |
 
 ### Chat UI Framework
@@ -175,7 +175,7 @@ class OrchestrationEngine:
     def __init__(
         self,
         azure_endpoint: str,
-        model: str = "gpt-4.1",
+        model: str = "gpt-4o",
         api_key: str | None = None,
         max_tokens: int = 4096,
         temperature: float = 0.1,

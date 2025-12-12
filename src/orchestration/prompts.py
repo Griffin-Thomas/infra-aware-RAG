@@ -1,7 +1,7 @@
 """System prompts for the infrastructure-aware assistant.
 
 This module contains all prompt templates used by the orchestration layer
-to guide the LLM's behavior when answering infrastructure questions.
+to guide the LLM's behaviour when answering infrastructure questions.
 """
 
 from typing import Any

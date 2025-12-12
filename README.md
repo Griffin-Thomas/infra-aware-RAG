@@ -25,157 +25,177 @@ Ask natural language questions like:
 All Azure services deployed in **Canada East** or **Canada Central**:
 
 - **Backend**: Python 3.11+, FastAPI
-- **LLM**: Azure OpenAI (GPT-4.1) - Canada East only
-- **Search**: Azure AI Search (vector + keyword)
+- **LLM**: Azure OpenAI (GPT-4o)
+- **Search**: Azure AI Search (vector + keyword hybrid)
 - **Graph**: Cosmos DB Gremlin API
-- **Frontend**: React + TypeScript
+- **Storage**: Cosmos DB NoSQL
+- **Frontend**: React + TypeScript + Vite
 - **CLI**: Typer + Rich
 
-## Repository Structure
+## Quick Start
+
+### Prerequisites
+
+- Python 3.11 or later
+- Node.js 18+ (for frontend)
+- Azure CLI (`az`) installed and logged in
+- Azure subscription with required services
+
+### 1. Clone and Setup
+
+```bash
+git clone https://github.com/Griffin-Thomas/infra-aware-RAG.git
+cd infra-aware-RAG
+
+# Create and activate virtual environment
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# For development
+pip install -r requirements-dev.txt
+```
+
+### 2. Configure Environment
+
+```bash
+# Copy the example environment file
+cp .env.example .env
+
+# Edit with your Azure resource endpoints
+```
+
+Required environment variables:
+
+```bash
+# Azure OpenAI
+AZURE_OPENAI_ENDPOINT=https://your-openai.openai.azure.com
+AZURE_OPENAI_DEPLOYMENT=gpt-4o
+AZURE_OPENAI_EMBEDDING_DEPLOYMENT=text-embedding-3-large
+
+# Azure AI Search
+AZURE_SEARCH_ENDPOINT=https://your-search.search.windows.net
+AZURE_SEARCH_INDEX_NAME=infra-index
+
+# Cosmos DB
+COSMOS_DB_ENDPOINT=https://your-cosmos.documents.azure.com
+COSMOS_DB_DATABASE=infra-rag
+
+# Authentication (Entra ID)
+AZURE_AD_TENANT_ID=your-tenant-id
+AZURE_AD_CLIENT_ID=your-client-id
+```
+
+### 3. Run the API Server
+
+```bash
+# Development mode with auto-reload
+uvicorn src.api.main:app --reload --port 8000
+
+# The API will be available at http://localhost:8000
+# OpenAPI docs at http://localhost:8000/docs
+```
+
+### 4. Run the Frontend (Optional)
+
+```bash
+cd frontend
+npm install
+npm run dev
+
+# Frontend will be available at http://localhost:5173
+```
+
+### 5. Use the CLI
+
+```bash
+# Install the CLI
+pip install -e .
+
+# Interactive chat
+infra-rag chat
+
+# Single query
+infra-rag chat "List all storage accounts"
+
+# Search infrastructure
+infra-rag search "virtual machines" --type azure_resource
+
+# Execute KQL query
+infra-rag query "Resources | summarize count() by type"
+```
+
+## Documentation
+
+| Document | Description |
+|----------|-------------|
+| [Architecture](docs/PLAN.md) | System architecture and design decisions |
+| [Data Ingestion](docs/01-data-ingestion.md) | How data is collected from Azure, Terraform, Git |
+| [Indexing & Search](docs/02-indexing-and-search.md) | Embedding pipeline and hybrid search |
+| [API Reference](docs/03-api-and-tools.md) | REST API endpoints and LLM tools |
+| [LLM & UI](docs/04-llm-orchestration-and-ui.md) | Chat orchestration and interfaces |
+| [CLI Guide](docs/cli-guide.md) | Command-line interface usage |
+| [Chat UI Guide](docs/chat-ui-guide.md) | Web chat interface usage |
+| [Deployment Guide](docs/deployment-guide.md) | Production deployment instructions |
+| [Troubleshooting](docs/troubleshooting.md) | Common issues and solutions |
+| [Contributing](docs/contributing.md) | How to contribute to the project |
+
+## API Endpoints
+
+The API is available at `/api/v1/` with the following main routes:
+
+| Endpoint | Description |
+|----------|-------------|
+| `POST /api/v1/search` | Hybrid search across all infrastructure data |
+| `GET /api/v1/resources/{id}` | Get Azure resource details |
+| `GET /api/v1/terraform/resources` | List Terraform resources |
+| `GET /api/v1/git/commits` | Get Git commit history |
+| `POST /api/v1/conversations` | Create a new chat conversation |
+| `POST /api/v1/conversations/{id}/messages` | Send a message (SSE streaming) |
+| `POST /api/v1/tools/execute` | Execute an LLM tool |
+
+Full API documentation is available at `/docs` (Swagger UI) or `/redoc` (ReDoc) when the server is running.
+
+## Project Structure
 
 ```
 /
-├── CLAUDE.md           # Instructions for AI agents working on this project
-├── TASKS.md            # ⭐ MASTER TASK LIST - current progress tracker
-├── README.md           # Project overview
-├── requirements.txt    # Python dependencies
-├── pyproject.toml      # Project configuration
-├── .venv/              # Virtual environment
-│
-├── docs/               # Architecture & design documentation
-│   ├── PLAN.md         # Architecture overview & decisions
-│   ├── 01-data-ingestion.md
-│   ├── 02-indexing-and-search.md
-│   ├── 03-api-and-tools.md
-│   ├── 04-llm-orchestration-and-ui.md
-│   └── schemas/        # Exported JSON schemas
-│
-├── src/                # Production code
-│   ├── models/         # Data models (Pydantic)
-│   │   ├── documents.py       # Document models for all data types
-│   │   └── schema_export.py   # JSON schema export utilities
-│   │
-│   ├── ingestion/      # Phase 1: Data collection
-│   │   ├── connectors/        # Data source connectors
-│   │   │   ├── azure_resource_graph.py
-│   │   │   ├── terraform_hcl.py
-│   │   │   ├── terraform_state.py
-│   │   │   ├── terraform_plan.py
-│   │   │   └── git_connector.py
-│   │   ├── models.py          # Ingestion job models
-│   │   └── orchestrator.py    # Job scheduling & coordination
-│   │
-│   ├── indexing/       # Phase 2: Embeddings & indexing
-│   │   ├── models.py          # Chunk data model
-│   │   ├── chunkers.py        # Document chunking strategies
-│   │   ├── embeddings.py      # Azure OpenAI embedding pipeline
-│   │   ├── search_index.py    # Azure AI Search schema
-│   │   ├── indexer.py         # Batch upload to search index
-│   │   ├── graph_builder.py   # Cosmos DB Gremlin graph population
-│   │   ├── orchestrator.py    # Indexing pipeline orchestration
-│   │   ├── change_feed.py     # Real-time indexing via change feed
-│   │   └── monitoring.py      # Health monitoring & alerting
-│   │
-│   ├── search/         # Hybrid search engine
-│   │   ├── models.py          # Search result models
-│   │   └── hybrid_search.py   # Vector + keyword + graph search
-│   │
-│   ├── api/            # Phase 3: FastAPI application
-│   │   ├── main.py            # FastAPI app with lifespan management
-│   │   ├── dependencies.py    # Dependency injection & settings
-│   │   ├── middleware/        # Auth, rate limiting, logging, monitoring
-│   │   │   ├── auth.py        # Entra ID JWT authentication
-│   │   │   ├── rate_limit.py  # Token bucket rate limiting
-│   │   │   ├── logging.py     # Structured logging
-│   │   │   └── app_insights.py # Application Insights integration
-│   │   ├── models/            # Request/response Pydantic models
-│   │   │   ├── search.py      # Search request/response models
-│   │   │   ├── resources.py   # Azure resource models
-│   │   │   ├── terraform.py   # Terraform resource & plan models
-│   │   │   └── git.py         # Git commit & change models
-│   │   ├── routers/           # API endpoint routers
-│   │   │   ├── search.py      # Search endpoints
-│   │   │   ├── resources.py   # Azure resource endpoints
-│   │   │   ├── terraform.py   # Terraform endpoints
-│   │   │   ├── git.py         # Git history endpoints
-│   │   │   └── tools.py       # LLM tool execution endpoints
-│   │   ├── services/          # Business logic layer
-│   │   │   ├── resource_service.py   # Azure resource operations
-│   │   │   ├── terraform_service.py  # Terraform operations
-│   │   │   └── git_service.py        # Git operations
-│   │   └── tools/             # LLM function calling
-│   │       └── definitions.py # 13 tool definitions for LLM
-│   │
-│   ├── orchestration/  # Phase 4: LLM integration
-│   │   └── (not yet listed)
-│   │
-│   └── cli/            # CLI tool (not yet implemented)
-│
-├── frontend/           # React + TypeScript chat UI
-│   ├── src/
-│   │   ├── components/       # React components
-│   │   │   ├── Chat/         # Chat interface components
-│   │   │   │   ├── ChatPage.tsx
-│   │   │   │   ├── ChatContainer.tsx
-│   │   │   │   ├── MessageList.tsx
-│   │   │   │   ├── MessageItem.tsx
-│   │   │   │   ├── InputBar.tsx
-│   │   │   │   └── ToolCallDisplay.tsx
-│   │   │   ├── Sidebar/      # Conversation sidebar
-│   │   │   │   └── ConversationSidebar.tsx
-│   │   │   ├── common/       # Shared components
-│   │   │   │   ├── Header.tsx
-│   │   │   │   ├── CodeBlock.tsx
-│   │   │   │   ├── ResourceLink.tsx
-│   │   │   │   └── LoadingIndicator.tsx
-│   │   │   └── LoginPage.tsx
-│   │   ├── hooks/            # Custom React hooks
-│   │   │   ├── useAuth.ts    # Authentication hook
-│   │   │   ├── useChat.ts    # Chat state management
-│   │   │   └── useStream.ts  # SSE streaming hook
-│   │   ├── services/         # API and auth services
-│   │   │   ├── api.ts        # API client
-│   │   │   └── auth.ts       # MSAL configuration
-│   │   ├── types/            # TypeScript type definitions
-│   │   │   └── index.ts
-│   │   ├── lib/              # Utility functions
-│   │   │   └── utils.ts
-│   │   ├── App.tsx           # Root component with routing
-│   │   ├── main.tsx          # Application entry point
-│   │   └── index.css         # Global styles and Tailwind config
-│   ├── .env.example          # Environment template
-│   ├── package.json
-│   ├── tsconfig.json
-│   ├── vite.config.ts
-│   └── README.md
-│
-├── tests/              # Test suite (611+ tests passing)
-│   ├── unit/           # Unit tests
-│   ├── integration/    # Integration tests
-│   └── fixtures/       # Test data & fixtures
-│       └── terraform/  # Sample .tf files
-│
-├── config/             # Configuration files
-│
-├── infrastructure/     # Deployment & monitoring
-│   ├── containerapp/   # Azure Container Apps deployment
-│   │   ├── containerapp.yaml  # Container App configuration
-│   │   ├── deploy.sh          # Automated deployment script
-│   │   └── README.md          # Deployment documentation
-│   └── monitoring/     # Monitoring & alerting
-│       ├── dashboard.json     # Azure Dashboard template
-│       ├── alerts.json        # Alert rules & action groups
-│       └── README.md          # Monitoring documentation
-│
-├── Dockerfile          # Container image for API
-└── .dockerignore       # Docker build exclusions
+├── src/                   # Python source code
+│   ├── api/               # FastAPI application
+│   ├── cli/               # Command-line interface
+│   ├── ingestion/         # Data connectors
+│   ├── indexing/          # Embedding & search indexing
+│   ├── orchestration/     # LLM chat orchestration
+│   ├── search/            # Hybrid search engine
+│   └── models/            # Pydantic data models
+├── frontend/              # React + TypeScript UI
+├── tests/                 # Test suite (600+ tests)
+├── docs/                  # Documentation
+├── infrastructure/        # Deployment configs
+└── config/                # Configuration files
 ```
 
-## Getting Started
+## Running Tests
+
+```bash
+# Activate virtual environment
+source .venv/bin/activate
+
+# Run all tests
+python -m pytest tests/ -v
+
+# Run with coverage
+python -m pytest tests/ -v --cov=src --cov-report=html
+
+# Run specific test file
+python -m pytest tests/unit/test_cli.py -v
+```
+
+## Development Progress
 
 See [TASKS.md](./TASKS.md) for the current task list and progress tracking.
-
-See [docs/PLAN.md](./docs/PLAN.md) for the full architecture documentation.
 
 ## License
 

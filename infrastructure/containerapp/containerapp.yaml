@@ -80,7 +80,7 @@ properties:
           - name: AZURE_OPENAI_EMBEDDING_DEPLOYMENT
             value: text-embedding-3-large
           - name: AZURE_OPENAI_CHAT_DEPLOYMENT
-            value: gpt-4
+            value: gpt-4o
 
           # Search configuration
           - name: AZURE_SEARCH_INDEX_NAME

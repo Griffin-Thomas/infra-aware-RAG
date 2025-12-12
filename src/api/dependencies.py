@@ -44,7 +44,7 @@ class Settings(BaseSettings):
         default="text-embedding-3-large", description="Embedding model deployment name"
     )
     azure_openai_chat_deployment: str = Field(
-        default="gpt-4", description="Chat model deployment name"
+        default="gpt-4o", description="Chat model deployment name"
     )
 
     # Azure AI Search settings

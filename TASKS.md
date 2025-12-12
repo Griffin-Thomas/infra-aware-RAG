@@ -10,7 +10,7 @@
 | Phase 1: Data Ingestion     | In Progress | 66/75 |
 | Phase 2: Indexing & Search  | In Progress | 46/49 |
 | Phase 3: API & Tools        | In Progress | 57/61 |
-| Phase 4: LLM & UI           | In Progress | 58/84 |
+| Phase 4: LLM & UI           | In Progress | 69/84 |
 
 ---
 
@@ -481,21 +481,21 @@
 - [x] **Test & Refine**: Use Playwright MCP for full end-to-end testing of chat flow before deployment
 - [x] **Test & Refine**: Use Playwright MCP to verify production build renders and functions correctly locally
 
-### 4.10 CLI Tool
+### 4.10 CLI Tool ✅
 > Context: `docs/04-llm-orchestration-and-ui.md` → "CLI Tool" section
 > Code example: Search for `app = typer.Typer`
 
-- [ ] Create `src/cli/__init__.py`
-- [ ] Implement main CLI app in `src/cli/main.py`
-- [ ] Implement `chat` command (interactive mode)
-- [ ] Implement single query mode (`chat "query here"`)
-- [ ] Implement `search` command for direct search
-- [ ] Implement `query` command for Resource Graph KQL
-- [ ] Add rich terminal output (tables, panels, syntax highlighting)
-- [ ] Add streaming support with live updates
-- [ ] Implement `_get_token()` using Azure CLI
-- [ ] Package for distribution via pip
-- [ ] Create CLI documentation
+- [x] Create `src/cli/__init__.py`
+- [x] Implement main CLI app in `src/cli/main.py`
+- [x] Implement `chat` command (interactive mode)
+- [x] Implement single query mode (`chat "query here"`)
+- [x] Implement `search` command for direct search
+- [x] Implement `query` command for Resource Graph KQL
+- [x] Add rich terminal output (tables, panels, syntax highlighting)
+- [x] Add streaming support with live updates
+- [x] Implement `_get_token()` using Azure CLI
+- [x] Package for distribution via pip
+- [x] Create CLI documentation
 
 ---
 
@@ -525,12 +525,12 @@
 
 ---
 
-## Documentation Tasks
+## Documentation Tasks ✅
 
-- [ ] Update README.md with project overview and quickstart
-- [ ] Create API documentation (auto-generated from OpenAPI)
-- [ ] Create user guide for chat UI
-- [ ] Create CLI documentation
-- [ ] Create deployment guide
-- [ ] Create troubleshooting guide
-- [ ] Create contribution guide
+- [x] Update README.md with project overview and quickstart
+- [x] Create API documentation (auto-generated from OpenAPI)
+- [x] Create user guide for chat UI
+- [x] Create CLI documentation
+- [x] Create deployment guide
+- [x] Create troubleshooting guide
+- [x] Create contribution guide
