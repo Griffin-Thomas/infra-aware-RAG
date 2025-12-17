@@ -14,6 +14,10 @@ Ask natural language questions like:
 
 ![Frontend chat interface](docs/assets/frontend-chat-interface.png)
 
+## Support
+
+[![Buy Me A Coffee](https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png)](https://buymeacoffee.com/griffinthomas)
+
 ## Data Sources
 
 - **Azure Resource Graph** - Live state of all Azure resources
